@@ -10,8 +10,6 @@ class LoginView {
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
 
-	
-
 	/**
 	 * Create HTTP response
 	 *
@@ -70,7 +68,11 @@ class LoginView {
 	
 	//CREATE GET-FUNCTIONS TO FETCH REQUEST VARIABLES
 	private function getRequestUserName() {
-		//RETURN REQUEST VARIABLE: USERNAME
+		if (isset($_POST[self::$name])) {
+			return $_POST[self::$name];
+		} else {
+			return null;
+		}
 	}
 	
 }
