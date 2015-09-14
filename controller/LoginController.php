@@ -5,7 +5,6 @@ namespace controller;
 
 class LoginController {
 
-    private $isLoggedIn;
     private $loginView;
     private $user; //
 
@@ -13,7 +12,5 @@ class LoginController {
 
         $this->loginView = $loginView;
         $this->user = $user;
-        $this->isLoggedIn = false;
-
     }
 }

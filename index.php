@@ -26,5 +26,3 @@ $loginController = new \controller\LoginController($v, $user);
 
 $lv->render(false, $v, $dtv);
 
-var_dump($_POST);
-
