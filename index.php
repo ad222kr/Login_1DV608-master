@@ -25,7 +25,7 @@ $loginController = new \controller\LoginController($v, $user);
 //Authenticate
 
 $isLoggedIn = $loginController->login();
-$html = $loginController->getHTML();
+$html = $loginController->getHTML($isLoggedIn);
 
 
 

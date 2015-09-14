@@ -7,7 +7,6 @@ class LoginController {
 
     private $user = null;
     private $loginView;
-
     public function __construct(\LoginView $loginView, \model\User $user) {
         $this->loginView = $loginView;
         $this->user = $user;
@@ -21,11 +20,10 @@ class LoginController {
     }
 
     public function logout() {
-        $this->user->setLoggedIn(false);
     }
 
-    public function getHTML() {
-        return $this->loginView->response();
+    public function getHTML($isLoggedIn) {
+        return $this->loginView->response($isLoggedIn);
     }
 
     private function isAuthenticated() {
