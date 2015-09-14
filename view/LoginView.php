@@ -25,7 +25,6 @@ class LoginView {
 	 */
 	public function response($isLoggedIn) {
 		$message = "";
-		var_dump($_POST);
 		$response = "";
 		if (!$isLoggedIn){
 			if ($this->getRequestPassword() == null) {
