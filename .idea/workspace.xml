@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b3599506-116d-4a57-89fd-60c5442c14f5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controller/LoginController.php" afterPath="$PROJECT_DIR$/controller/LoginController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.php" afterPath="$PROJECT_DIR$/index.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/LoginView.php" afterPath="$PROJECT_DIR$/view/LoginView.php" />
     </list>
     <ignored path="Login_1DV608-master.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -35,11 +34,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LoginController.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="LoginController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controller/LoginController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.1574074">
-              <caret line="20" column="8" selection-start-line="20" selection-start-column="8" selection-end-line="20" selection-end-column="8" />
+            <state vertical-scroll-proportion="-7.7272725">
+              <caret line="25" column="27" selection-start-line="25" selection-start-column="27" selection-end-line="25" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -80,18 +79,18 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LoginView.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="LoginView.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/view/LoginView.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.345454">
-              <caret line="27" column="40" selection-start-line="27" selection-start-column="40" selection-end-line="27" selection-end-column="40" />
+            <state vertical-scroll-proportion="0.17708333">
+              <caret line="30" column="44" selection-start-line="30" selection-start-column="44" selection-end-line="30" selection-end-column="44" />
               <folding>
-                <marker date="1442245730678" expanded="true" signature="1605:1745" placeholder="..." />
-                <marker date="1442245730678" expanded="true" signature="2007:2731" placeholder="..." />
-                <marker date="1442245730678" expanded="true" signature="2024:2094" placeholder="..." />
-                <marker date="1442245730678" expanded="true" signature="2024:2288" placeholder="..." />
-                <marker date="1442245730678" expanded="true" signature="2024:2289" placeholder="..." />
-                <marker date="1442245730678" expanded="true" signature="2024:2720" placeholder="..." />
+                <marker date="1442248097332" expanded="true" signature="1660:1800" placeholder="..." />
+                <marker date="1442248097332" expanded="true" signature="2062:2786" placeholder="..." />
+                <marker date="1442248097332" expanded="true" signature="2079:2149" placeholder="..." />
+                <marker date="1442248097332" expanded="true" signature="2079:2343" placeholder="..." />
+                <marker date="1442248097332" expanded="true" signature="2079:2344" placeholder="..." />
+                <marker date="1442248097332" expanded="true" signature="2079:2775" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -107,10 +106,10 @@
       <list>
         <option value="$PROJECT_DIR$/model/User.php" />
         <option value="$PROJECT_DIR$/view/LayoutView.php" />
-        <option value="$PROJECT_DIR$/view/LoginView.php" />
         <option value="$PROJECT_DIR$/view/DateTimeView.php" />
         <option value="$PROJECT_DIR$/index.php" />
         <option value="$PROJECT_DIR$/controller/LoginController.php" />
+        <option value="$PROJECT_DIR$/view/LoginView.php" />
       </list>
     </option>
   </component>
@@ -340,12 +339,12 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="70" column="41" selection-start-line="70" selection-start-column="41" selection-end-line="70" selection-end-column="41" />
           <folding>
-            <marker date="1442245730678" expanded="true" signature="1605:1745" placeholder="..." />
-            <marker date="1442245730678" expanded="true" signature="2007:2731" placeholder="..." />
-            <marker date="1442245730678" expanded="true" signature="2024:2094" placeholder="..." />
-            <marker date="1442245730678" expanded="true" signature="2024:2288" placeholder="..." />
-            <marker date="1442245730678" expanded="true" signature="2024:2289" placeholder="..." />
-            <marker date="1442245730678" expanded="true" signature="2024:2720" placeholder="..." />
+            <marker date="1442248097332" expanded="true" signature="1660:1800" placeholder="..." />
+            <marker date="1442248097332" expanded="true" signature="2062:2786" placeholder="..." />
+            <marker date="1442248097332" expanded="true" signature="2079:2149" placeholder="..." />
+            <marker date="1442248097332" expanded="true" signature="2079:2343" placeholder="..." />
+            <marker date="1442248097332" expanded="true" signature="2079:2344" placeholder="..." />
+            <marker date="1442248097332" expanded="true" signature="2079:2775" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -379,21 +378,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/view/LoginView.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.345454">
-          <caret line="27" column="40" selection-start-line="27" selection-start-column="40" selection-end-line="27" selection-end-column="40" />
-          <folding>
-            <marker date="1442245730678" expanded="true" signature="1605:1745" placeholder="..." />
-            <marker date="1442245730678" expanded="true" signature="2007:2731" placeholder="..." />
-            <marker date="1442245730678" expanded="true" signature="2024:2094" placeholder="..." />
-            <marker date="1442245730678" expanded="true" signature="2024:2288" placeholder="..." />
-            <marker date="1442245730678" expanded="true" signature="2024:2289" placeholder="..." />
-            <marker date="1442245730678" expanded="true" signature="2024:2720" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-8.654546">
@@ -404,9 +388,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/controller/LoginController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.1574074">
-          <caret line="20" column="8" selection-start-line="20" selection-start-column="8" selection-end-line="20" selection-end-column="8" />
+        <state vertical-scroll-proportion="-7.7272725">
+          <caret line="25" column="27" selection-start-line="25" selection-start-column="27" selection-end-line="25" selection-end-column="27" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/LoginView.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.17708333">
+          <caret line="30" column="44" selection-start-line="30" selection-start-column="44" selection-end-line="30" selection-end-column="44" />
+          <folding>
+            <marker date="1442248097332" expanded="true" signature="1660:1800" placeholder="..." />
+            <marker date="1442248097332" expanded="true" signature="2062:2786" placeholder="..." />
+            <marker date="1442248097332" expanded="true" signature="2079:2149" placeholder="..." />
+            <marker date="1442248097332" expanded="true" signature="2079:2343" placeholder="..." />
+            <marker date="1442248097332" expanded="true" signature="2079:2344" placeholder="..." />
+            <marker date="1442248097332" expanded="true" signature="2079:2775" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
