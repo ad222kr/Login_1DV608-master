@@ -12,17 +12,23 @@ error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 
 //CREATE OBJECTS OF THE MODELS
-$user = new \model\User("Admin", "Password");
-
+$user = new \model\User();
 
 //CREATE OBJECTS OF THE VIEWS
-$v = new LoginView();
+$v = new LoginView($user);
 $dtv = new DateTimeView();
 $lv = new LayoutView();
 
 //CREATE OBJECTS OF THE CONTROLLERS
 $loginController = new \controller\LoginController($v, $user);
 
+//Authenticate
 
-$lv->render(false, $v, $dtv);
+$isLoggedIn = $loginController->login();
+$html = $loginController->getHTML();
+
+var_dump($isLoggedIn);
+
+
+$lv->render($isLoggedIn, $html, $dtv);
 

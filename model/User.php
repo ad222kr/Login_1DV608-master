@@ -4,12 +4,10 @@ namespace model;
 
 class User {
 
-    private $username;
-    private $password;
+    private $username = "Admin";
+    private $password = "Password";
 
-    public function __construct($username, $password) {
-        $this->username = $username;
-        $this->password = $password;
+    public function __construct() {
     }
 
     public function getUsername() {
@@ -19,4 +17,7 @@ class User {
     public function getPassword() {
         return $this->password;
     }
+
+
+
 }
