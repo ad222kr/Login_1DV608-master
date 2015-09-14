@@ -5,6 +5,8 @@ namespace controller;
 
 class LoginController {
 
+    private static $isLoggedInName = "isLoggedIn";
+
     private $user = null;
     private $loginView;
     public function __construct(\model\User $user) {
@@ -12,18 +14,44 @@ class LoginController {
         $this->loginView = new \view\LoginView($this->user);
     }
 
-    public function login() {
-        if ($this->isAuthenticated()) {
-            return true;
+    /**
+     * @return bool - if the user is logged in or not
+     */
+    public function doLoginAction() {
+        if ($this->loginView->isLogout()){
+            $this->logout();
+
+        } else {
+            $this->login();
+
         }
-        return false;
+        return $this->isLoggedIn();
     }
 
-    public function logout() {
+    private function login() {
+        if ($this->isAuthenticated()) {
+            $this->setIsLoggedIn(true);
+        }
     }
 
-    public function getHTML($isLoggedIn) {
-        return $this->loginView->response($isLoggedIn);
+    private function logout() {
+        if ($this->isLoggedIn()){
+            $this->setIsLoggedIn(false);
+        }
+    }
+
+    public function getHTML() {
+        return $this->loginView->response($_SESSION[self::$isLoggedInName]);
+    }
+
+    private function isLoggedIn() {
+        if (isset($_SESSION[self::$isLoggedInName])){
+            return $_SESSION[self::$isLoggedInName];
+        }
+    }
+
+    private function setIsLoggedIn($value) {
+        $_SESSION[self::$isLoggedInName] = $value;
     }
 
     private function isAuthenticated() {

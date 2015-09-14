@@ -14,6 +14,8 @@ ini_set('display_errors', 'On');
 //Start session
 session_start();
 
+var_dump($_SESSION);
+
 //CREATE OBJECTS OF THE MODELS
 $user = new \model\User();
 
@@ -26,8 +28,8 @@ $lv = new view\LayoutView();
 $loginController = new \controller\LoginController($user);
 
 
-$_SESSION["isLoggedIn"] = $loginController->login();
-$html = $loginController->getHTML($_SESSION["isLoggedIn"]);
+$isLoggedIn = $loginController->doLoginAction();
+$html = $loginController->getHTML();
 
-$lv->render($_SESSION["isLoggedIn"], $html, $dtv);
+$lv->render($isLoggedIn, $html, $dtv);
 

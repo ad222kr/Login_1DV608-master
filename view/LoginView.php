@@ -104,7 +104,7 @@ class LoginView {
 		return "";
 	}
 
-	private function isLogout() {
+	public function isLogout() {
 		if (isset($_POST[self::$logout])){
 			return $_POST[self::$logout];
 		}
