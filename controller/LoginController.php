@@ -7,9 +7,9 @@ class LoginController {
 
     private $user = null;
     private $loginView;
-    public function __construct(\LoginView $loginView, \model\User $user) {
-        $this->loginView = $loginView;
+    public function __construct(\model\User $user) {
         $this->user = $user;
+        $this->loginView = new \view\LoginView($this->user);
     }
 
     public function login() {

@@ -15,19 +15,16 @@ ini_set('display_errors', 'On');
 $user = new \model\User();
 
 //CREATE OBJECTS OF THE VIEWS
-$v = new LoginView($user);
-$dtv = new DateTimeView();
-$lv = new LayoutView();
+
+$dtv = new view\DateTimeView();
+$lv = new view\LayoutView();
 
 //CREATE OBJECTS OF THE CONTROLLERS
-$loginController = new \controller\LoginController($v, $user);
+$loginController = new \controller\LoginController($user);
 
-//Authenticate
 
 $isLoggedIn = $loginController->login();
 $html = $loginController->getHTML($isLoggedIn);
-
-
 
 $lv->render($isLoggedIn, $html, $dtv);
 

@@ -1,5 +1,7 @@
 <?php
 
+namespace view;
+
 class LoginView {
 	private static $login = 'LoginView::Login';
 	private static $logout = 'LoginView::Logout';
@@ -25,21 +27,22 @@ class LoginView {
 	 */
 	public function response($isLoggedIn) {
 		$message = "";
-		$response = "";
 		if (!$isLoggedIn){
-			if ($this->getRequestPassword() == null) {
-				$message = "Username is missing";
-			} elseif ($this->getRequestPassword() == null) {
-				$message = "Password is missing";
+			if ($_SERVER["REQUEST_METHOD"] === "POST"){
+				if ($this->isLogout()){
+					$message = "Bye bye!";
+				} elseif (strlen($this->getRequestUserName()) == 0) {
+					$message = "Username is missing";
+				} elseif (strlen($this->getRequestPassword() == 0)) {
+					$message = "Password is missing";
+				}
 			}
 			$response = $this->generateLoginFormHTML($message);
-
 		} else {
+			$message = "Welcome";
 			$response = $this->generateLogoutButtonHTML($message);
 		}
 
-
-		//$response .= $this->generateLogoutButtonHTML($message);
 		return $response;
 	}
 
@@ -88,21 +91,21 @@ class LoginView {
 	public function getRequestUserName() {
 		if (isset($_POST[self::$name])) {
 			return $_POST[self::$name];
-		} else {
-			return null; // null or empty str?
 		}
+		return null;
 	}
 
 	public function getRequestPassword() {
 		if (isset($_POST[self::$password])) {
 			return $_POST[self::$password];
-		} else {
-			return null;
 		}
+		return null;
 	}
 
-
-
-
-	
+	private function isLogout() {
+		if (isset($_POST[self::$logout])){
+			return $_POST[self::$logout];
+		}
+		return null;
+	}
 }
