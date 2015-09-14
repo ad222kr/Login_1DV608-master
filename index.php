@@ -12,9 +12,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 
 //Start session
-session_start();
 
-var_dump($_SESSION);
 
 //CREATE OBJECTS OF THE MODELS
 $user = new \model\User();

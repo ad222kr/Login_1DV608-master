@@ -20,10 +20,10 @@ class LoginController {
     public function doLoginAction() {
         if ($this->loginView->isLogout()){
             $this->logout();
-
+            session_
         } else {
+            session_start();
             $this->login();
-
         }
         return $this->isLoggedIn();
     }
