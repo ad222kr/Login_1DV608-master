@@ -11,6 +11,9 @@ require_once('controller/LoginController.php');
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 
+//Start session
+session_start();
+
 //CREATE OBJECTS OF THE MODELS
 $user = new \model\User();
 
@@ -23,8 +26,8 @@ $lv = new view\LayoutView();
 $loginController = new \controller\LoginController($user);
 
 
-$isLoggedIn = $loginController->login();
-$html = $loginController->getHTML($isLoggedIn);
+$_SESSION["isLoggedIn"] = $loginController->login();
+$html = $loginController->getHTML($_SESSION["isLoggedIn"]);
 
-$lv->render($isLoggedIn, $html, $dtv);
+$lv->render($_SESSION["isLoggedIn"], $html, $dtv);
 

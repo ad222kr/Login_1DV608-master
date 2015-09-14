@@ -37,7 +37,7 @@ class LoginView {
 				} elseif ($this->getRequestPassword() === "") {
 					$message = "Password is missing";
 				} else {
-                    $message = "Username or password is wrong";
+                    $message = "Wrong name or password";
                 }
 			}
 			$response = $this->generateLoginFormHTML($message);
