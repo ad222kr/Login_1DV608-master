@@ -31,18 +31,20 @@ class LoginView {
 			if ($_SERVER["REQUEST_METHOD"] === "POST"){
 				if ($this->isLogout()){
 					$message = "Bye bye!";
-				} elseif (strlen($this->getRequestUserName()) == 0) {
+				} elseif ($this->getRequestUserName() === "") {
 					$message = "Username is missing";
-				} elseif (strlen($this->getRequestPassword() == 0)) {
+
+				} elseif ($this->getRequestPassword() === "") {
 					$message = "Password is missing";
-				}
+				} else {
+                    $message = "Username or password is wrong";
+                }
 			}
 			$response = $this->generateLoginFormHTML($message);
 		} else {
 			$message = "Welcome";
 			$response = $this->generateLogoutButtonHTML($message);
 		}
-
 		return $response;
 	}
 
@@ -73,7 +75,7 @@ class LoginView {
 					<p id="' . self::$messageId . '">' . $message . '</p>
 					
 					<label for="' . self::$name . '">Username :</label>
-					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="" />
+					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="'.$this->getRequestUserName().'" />
 
 					<label for="' . self::$password . '">Password :</label>
 					<input type="password" id="' . self::$password . '" name="' . self::$password . '" />
@@ -92,20 +94,20 @@ class LoginView {
 		if (isset($_POST[self::$name])) {
 			return $_POST[self::$name];
 		}
-		return null;
+		return "";
 	}
 
 	public function getRequestPassword() {
 		if (isset($_POST[self::$password])) {
 			return $_POST[self::$password];
 		}
-		return null;
+		return "";
 	}
 
 	private function isLogout() {
 		if (isset($_POST[self::$logout])){
 			return $_POST[self::$logout];
 		}
-		return null;
+		return "";
 	}
 }
