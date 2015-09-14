@@ -20,9 +20,9 @@ class LoginController {
     public function doLoginAction() {
         if ($this->loginView->isLogout()){
             $this->logout();
-            session_
+
         } else {
-            session_start();
+
             $this->login();
         }
         return $this->isLoggedIn();
@@ -36,12 +36,13 @@ class LoginController {
 
     private function logout() {
         if ($this->isLoggedIn()){
+
             $this->setIsLoggedIn(false);
         }
     }
 
     public function getHTML() {
-        return $this->loginView->response($_SESSION[self::$isLoggedInName]);
+        return $this->loginView->response($this->isLoggedIn());
     }
 
     private function isLoggedIn() {
