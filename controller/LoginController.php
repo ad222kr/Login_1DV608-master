@@ -41,7 +41,7 @@ class LoginController {
         }
     }
 
-    public function getHTML() {
+    public function renderView() {
         return $this->loginView->response($this->isLoggedIn());
     }
 

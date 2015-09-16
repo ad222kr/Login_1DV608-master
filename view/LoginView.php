@@ -42,10 +42,10 @@ class LoginView {
 			}
 			$response = $this->generateLoginFormHTML($message);
 		} else {
-			if($_POST){
-                $message = "Welcome";
-            }
+			$message = "Welcome";
+
 			$response = $this->generateLogoutButtonHTML($message);
+			$this->redirect();
 		}
 		return $response;
 	}
@@ -111,5 +111,11 @@ class LoginView {
 			return $_POST[self::$logout];
 		}
 		return "";
+	}
+
+	public function redirect() {
+		if ($_POST) {
+			header("Location: " . $_SERVER['REQUEST_URI']);
+		}
 	}
 }
