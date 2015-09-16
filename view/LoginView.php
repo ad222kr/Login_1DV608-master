@@ -12,11 +12,9 @@ class LoginView {
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
 
-	private $user;
+	private $message;
 
-	public function __construct(\model\User $user) {
-		$this->user = $user;
-	}
+
 
 	/**
 	 * Create HTTP response
@@ -26,27 +24,21 @@ class LoginView {
 	 * @return  void BUT writes to standard output and cookies!
 	 */
 	public function response($isLoggedIn) {
-		$message = "";
+
 		if (!$isLoggedIn){
 			if ($_POST){
-				if ($this->isLogout()){
-					$message = "Bye bye!";
-				} elseif ($this->getRequestUserName() === "") {
-					$message = "Username is missing";
-
-				} elseif ($this->getRequestPassword() === "") {
-					$message = "Password is missing";
-				} else {
-                    $message = "Wrong name or password";
-                }
+				if ($this->userWantsToLogout()){
+					$this->message = "Bye bye!";
+				}
 			}
-			$response = $this->generateLoginFormHTML($message);
-		} else {
+			$response = $this->generateLoginFormHTML($this->message);
+		} elseif ($this->userWantsToLogin()) {
 			$message = "Welcome";
 
-			$response = $this->generateLogoutButtonHTML($message);
-			$this->redirect();
+			$response = $this->generateLogoutButtonHTML($this->message);
+
 		}
+		//this->redirect();
 		return $response;
 	}
 
@@ -106,16 +98,21 @@ class LoginView {
 		return "";
 	}
 
-	public function isLogout() {
-		if (isset($_POST[self::$logout])){
-			return $_POST[self::$logout];
-		}
-		return "";
+	public function userWantsToLogout() {
+		return isset($_POST[self::$logout]);
+	}
+
+	public function userWantsToLogin() {
+		return isset($_POST[self::$login]);
 	}
 
 	public function redirect() {
 		if ($_POST) {
 			header("Location: " . $_SERVER['REQUEST_URI']);
 		}
+	}
+
+	public function setMessage($message) {
+		$this->message = $message;
 	}
 }

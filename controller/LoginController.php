@@ -5,58 +5,38 @@ namespace controller;
 
 class LoginController {
 
-    private static $isLoggedInName = "isLoggedIn";
-
     private $user = null;
+    private $loginModel;
     private $loginView;
-    public function __construct(\model\User $user) {
-        $this->user = $user;
-        $this->loginView = new \view\LoginView($this->user);
+    public function __construct(\model\LoginModel $loginModel) {
+        $this->loginModel = $loginModel;
+        $this->loginView = new \view\LoginView();
     }
 
     /**
      * @return bool - if the user is logged in or not
      */
     public function doLoginAction() {
-        if ($this->loginView->isLogout()){
-            $this->logout();
+        $username = $this->loginView->getRequestUserName();
+        $password = $this->loginView->getRequestPassword();
 
-        } else {
 
-            $this->login();
+        $this->user = new \model\User($username, $password);
+
+
+        if ($this->loginView->userWantsToLogin()){
+            $this->loginModel->authenticateUser($this->user);
+        } elseif ($this->loginView->userWantsToLogout()) {
+            $this->loginModel->logoutUser();
         }
-        return $this->isLoggedIn();
-    }
 
-    private function login() {
-        if ($this->isAuthenticated()) {
-            $this->setIsLoggedIn(true);
-        }
-    }
 
-    private function logout() {
-        if ($this->isLoggedIn()){
 
-            $this->setIsLoggedIn(false);
-        }
+
+        return $this->user->isLoggedIn();
     }
 
     public function renderView() {
-        return $this->loginView->response($this->isLoggedIn());
-    }
-
-    private function isLoggedIn() {
-        if (isset($_SESSION[self::$isLoggedInName])){
-            return $_SESSION[self::$isLoggedInName];
-        }
-    }
-
-    private function setIsLoggedIn($value) {
-        $_SESSION[self::$isLoggedInName] = $value;
-    }
-
-    private function isAuthenticated() {
-        return $this->user->getUsername() === $this->loginView->getRequestUserName() &&
-               $this->user->getPassword() === $this->loginView->getRequestPassword();
+        return $this->loginView->response($this->user->isLoggedIn());
     }
 }
