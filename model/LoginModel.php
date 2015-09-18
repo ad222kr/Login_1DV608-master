@@ -22,16 +22,19 @@ class LoginModel {
     }
 
     private function loginUser() {
+        // TODO: move session to view?? or own class maybe
         $_SESSION[self::$isLoggedInName] = true;
     }
 
     public function logoutUser() {
+        // TODO: move session to view?? or own class maybe
         if (isset($_SESSION[self::$isLoggedInName])) {
             unset($_SESSION[self::$isLoggedInName]);
         }
     }
 
     public function userIsLoggedIn() {
+        // TODO: move session to view?? or own class maybe
         if (isset($_SESSION[self::$isLoggedInName])) {
             return $_SESSION[self::$isLoggedInName];
         }

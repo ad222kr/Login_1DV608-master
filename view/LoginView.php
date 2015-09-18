@@ -30,11 +30,8 @@ class LoginView {
 	 * @return  void BUT writes to standard output and cookies!
 	 */
 	public function response($userIsLoggedIn) {
-
 		$response = "";
 		$message = "";
-
-
 
 		if ($userIsLoggedIn) {
 			if ($this->userWantsToLogin()){
@@ -51,12 +48,7 @@ class LoginView {
 			}
 
 			$response .= $this->generateLoginFormHTML($message);
-
-
 		}
-
-
-
 		return $response;
 	}
 
