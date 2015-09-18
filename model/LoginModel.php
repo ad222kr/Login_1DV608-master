@@ -16,7 +16,7 @@ class LoginModel {
 
     public function authenticateUser(\model\User $user) {
         if ($user->getUsername() !== self::$username || $user->getPassword() !== self::$password)
-            throw new \Exception("Username or password is wrong!");
+            throw new \Exception("Wrong name or password");
 
         $this->loginUser();
     }

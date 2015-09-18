@@ -11,7 +11,7 @@ class LoginView {
 	private static $cookiePassword = 'LoginView::CookiePassword';
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
-	private static $welcomeMessage = "Welcome!";
+	private static $welcomeMessage = "Welcome";
 	private static $goodbyeMessage = "Bye bye!";
 
 	private $message = "";
