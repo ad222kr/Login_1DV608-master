@@ -20,14 +20,14 @@ class LoginController {
      */
     public function doLoginAction() {
 
-        if ($this->loginView->userWantsToLogin() && !$this->loginModel->userIsLoggedIn()) {
+        if ($this->loginView->userWantsToLogin()) {
             try {
                 $this->createUser();
                 $this->loginModel->authenticateUser($this->user);
             } catch (\Exception $e) {
                 $this->loginView->setMessage($e->getMessage());
             }
-        } else if ($this->loginView->userWantsToLogout() && $this->loginModel->userIsLoggedIn()) {
+        } else if ($this->loginView->userWantsToLogout()) {
             $this->loginModel->logoutUser();
         }
         return $this->loginModel->userIsLoggedIn();

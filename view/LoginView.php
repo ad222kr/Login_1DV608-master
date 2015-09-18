@@ -30,19 +30,26 @@ class LoginView {
 	 * @return  void BUT writes to standard output and cookies!
 	 */
 	public function response($userIsLoggedIn) {
+
 		$response = "";
 		$message = "";
 
 		if ($userIsLoggedIn) {
-			$this->message = self::$welcomeMessage;
+			if ($this->userWantsToLogin()){
+				$this->message = self::$welcomeMessage;
+			}
 			$response .= $this->generateLogoutButtonHTML($this->message);
-			$this->redirect();
 		} else {
-			if ($_POST){
-				$message = strlen($this->message) == 0 ? self::$goodbyeMessage : $this->message;
+			if ($this->userWantsToLogout()){
+				$message = self::$goodbyeMessage;
+				$this->redirect();
+			} elseif (strlen($this->message) > 0) {
+				$message = $this->message;
 			}
 
 			$response .= $this->generateLoginFormHTML($message);
+
+
 		}
 
 		return $response;
@@ -113,7 +120,7 @@ class LoginView {
 	}
 
 	public function redirect() {
-		if ($_POST) {
+		if ($_POST){
 			header("Location: " . $_SERVER['REQUEST_URI']);
 			exit();
 		}
