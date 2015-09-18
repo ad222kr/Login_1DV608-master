@@ -31,9 +31,10 @@ class LoginModel {
         }
     }
 
-    private function isUserLoggedIn() {
+    public function userIsLoggedIn() {
         if (isset($_SESSION[self::$isLoggedInName])) {
             return $_SESSION[self::$isLoggedInName];
         }
+        return false;
     }
 }

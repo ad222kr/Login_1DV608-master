@@ -11,9 +11,15 @@ class LoginView {
 	private static $cookiePassword = 'LoginView::CookiePassword';
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
+	private static $welcomeMessage = "Welcome!";
+	private static $goodbyeMessage = "Bye bye!";
 
-	private $message;
+	private $message = "";
+	private $loginModel;
 
+	public function __construct(\model\LoginModel $loginModel) {
+		$this->loginModel = $loginModel;
+	}
 
 
 	/**
@@ -23,22 +29,22 @@ class LoginView {
 	 *
 	 * @return  void BUT writes to standard output and cookies!
 	 */
-	public function response($isLoggedIn) {
+	public function response($userIsLoggedIn) {
+		$response = "";
+		$message = "";
 
-		if (!$isLoggedIn){
+		if ($userIsLoggedIn) {
+			$this->message = self::$welcomeMessage;
+			$response .= $this->generateLogoutButtonHTML($this->message);
+			$this->redirect();
+		} else {
 			if ($_POST){
-				if ($this->userWantsToLogout()){
-					$this->message = "Bye bye!";
-				}
+				$message = strlen($this->message) == 0 ? self::$goodbyeMessage : $this->message;
 			}
-			$response = $this->generateLoginFormHTML($this->message);
-		} elseif ($this->userWantsToLogin()) {
-			$message = "Welcome";
 
-			$response = $this->generateLogoutButtonHTML($this->message);
-
+			$response .= $this->generateLoginFormHTML($message);
 		}
-		//this->redirect();
+
 		return $response;
 	}
 
@@ -109,6 +115,7 @@ class LoginView {
 	public function redirect() {
 		if ($_POST) {
 			header("Location: " . $_SERVER['REQUEST_URI']);
+			exit();
 		}
 	}
 

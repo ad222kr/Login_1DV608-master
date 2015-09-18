@@ -28,7 +28,8 @@ $loginController = new \controller\LoginController($loginModel);
 
 
 $isLoggedIn = $loginController->doLoginAction();
-$html = $loginController->renderView();
+$loginView = $loginController->getView();
 
-$lv->render($isLoggedIn, $html, $dtv);
+
+$lv->render($isLoggedIn, $loginView, $dtv);
 

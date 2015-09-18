@@ -5,17 +5,15 @@ namespace model;
 class User {
     private $username;
     private $password;
-    private $isLoggedIn;
 
     public function __construct($username, $password) {
-        if ($username = "")
+        if (trim($username) == '')
             throw new \Exception("Username is missing");
-        if ($password = "")
+        if (strlen($password) == 0)
             throw new \Exception("Password is missing");
         $this->username = $username;
         $this->password = $password;
-        var_dump($this->username);
-        var_dump($this->password);
+
         $this->isLoggedIn = false;
     }
 
@@ -27,13 +25,7 @@ class User {
         return $this->password;
     }
 
-    public function setIsLoggedIn($status) {
-        $this->isLoggedIn = $status;
-    }
 
-    public function isLoggedIn() {
-        return $this->isLoggedIn;
-    }
 
 
 
