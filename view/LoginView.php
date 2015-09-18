@@ -34,23 +34,28 @@ class LoginView {
 		$response = "";
 		$message = "";
 
+
+
 		if ($userIsLoggedIn) {
 			if ($this->userWantsToLogin()){
-				$this->message = self::$welcomeMessage;
+				$this->setTempMessage(self::$welcomeMessage);
+				$this->redirect();
 			}
 			$response .= $this->generateLogoutButtonHTML($this->message);
 		} else {
 			if ($this->userWantsToLogout()){
-				$message = self::$goodbyeMessage;
+				$this->setTempMessage(self::$goodbyeMessage);
 				$this->redirect();
 			} elseif (strlen($this->message) > 0) {
-				$message = $this->message;
+				$this->setTempMessage($this->message);
 			}
 
 			$response .= $this->generateLoginFormHTML($message);
 
 
 		}
+
+
 
 		return $response;
 	}
@@ -63,7 +68,7 @@ class LoginView {
 	private function generateLogoutButtonHTML($message) {
 		return '
 			<form  method="post" >
-				<p id="' . self::$messageId . '">' . $message .'</p>
+				<p id="' . self::$messageId . '">' . $this->getTempMessage() .'</p>
 				<input type="submit" name="' . self::$logout . '" value="logout"/>
 			</form>
 		';
@@ -79,7 +84,7 @@ class LoginView {
 			<form method="post" > 
 				<fieldset>
 					<legend>Login - enter Username and password</legend>
-					<p id="' . self::$messageId . '">' . $message . '</p>
+					<p id="' . self::$messageId . '">' . $this->getTempMessage() . '</p>
 					
 					<label for="' . self::$name . '">Username :</label>
 					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="'.$this->getRequestUserName().'" />
@@ -129,4 +134,19 @@ class LoginView {
 	public function setMessage($message) {
 		$this->message = $message;
 	}
+
+	public function setTempMessage($messageString) {
+		$_SESSION["tempMessage"] = $messageString;
+	}
+
+	public function getTempMessage() {
+		$message = "";
+		if (isset($_SESSION["tempMessage"])){
+			$message = $_SESSION["tempMessage"];
+			unset($_SESSION["tempMessage"]);
+		}
+		return $message;
+	}
+
+
 }

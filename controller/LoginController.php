@@ -25,7 +25,7 @@ class LoginController {
                 $this->createUser();
                 $this->loginModel->authenticateUser($this->user);
             } catch (\Exception $e) {
-                $this->loginView->setMessage($e->getMessage());
+                $this->loginView->setTempMessage($e->getMessage());
             }
         } else if ($this->loginView->userWantsToLogout()) {
             $this->loginModel->logoutUser();
