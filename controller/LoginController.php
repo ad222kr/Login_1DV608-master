@@ -34,7 +34,7 @@ class LoginController {
             }
         }
 
-        if ($this->loginModel->userIsLoggedIn() && $this->loginView->didUserPressLogut()) {
+        else if ($this->loginModel->userIsLoggedIn() && $this->loginView->didUserPressLogut()) {
 
             $this->loginModel->logoutUser();
         }

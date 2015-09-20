@@ -13,12 +13,12 @@ class LoginView {
     private static $cookiePassword = 'LoginView::CookiePassword';
     private static $keep = 'LoginView::KeepMeLoggedIn';
     private static $messageId = 'LoginView::Message';
+    private static $messageKey = "LoginView::TempMessage";
     private static $welcomeMessage = "Welcome";
     private static $goodbyeMessage = "Bye bye!";
-    private static $messageKey = "tempMessage";
 
     private $sessionModel;
-    private $message = null;
+    private $message;
 
     public function __construct(\model\SessionModel $sessionModel) {
         $this->sessionModel = $sessionModel;
@@ -34,35 +34,50 @@ class LoginView {
      */
     public function response($userIsLoggedIn) {
         $response = "";
+        $message = "";
 
         if ($userIsLoggedIn) {
             if ($this->didUserPressLogin()) {
                 $this->setMessage(self::$welcomeMessage, true);
                 $this->reloadPage();
+            } else {
+                $message = $this->getMessage();
             }
-            $response .= $this->generateLogoutButtonHTML($this->getMessage());
+            $response .= $this->generateLogoutButtonHTML($message);
         } else {
             if ($this->didUserPressLogut()) {
                 $this->setMessage(self::$goodbyeMessage, true);
                 $this->reloadPage();
+            } else {
+                $message = $this->getMessage();
             }
-            $response .= $this->generateLoginFormHTML($this->getMessage());
+            $response .= $this->generateLoginFormHTML($message);
+
         }
         return $response;
     }
 
 
-    public function getMessage() {
+    /**
+     * Returns a message set to the $_SESSION-array if one exists, for the
+     * messages that needs to persist between redirects. If such message does
+     * not exist, checks the member variable message that holds error-messages
+     * to be shown on the login-screen. These does not need to be in $_SESSION
+     * since it saves POST-data.
+     *
+     * @return null|string, message for the user, null string if no message is set
+     */
+    private function getMessage() {
         $message = "";
-
-        if ($this->sessionModel->getSessionData(self::$messageKey) != null) {
+        if ($this->sessionModel->sessionDataExist(self::$messageKey)) {
             $message = $this->sessionModel->getSessionDataAndUnset(self::$messageKey);
         } elseif ($this->message != null) {
             $message = $this->message;
         }
-
         return $message;
     }
+
+
 
     /**
      * public for now so the controller can set message
@@ -161,10 +176,8 @@ class LoginView {
     }
 
     private function reloadPage() {
-        if ($_POST){
-            header("Location: " . $_SERVER['REQUEST_URI']);
-            exit;
-        }
+        header("Location: " . $_SERVER['REQUEST_URI']);
+        exit();
     }
 
 

@@ -38,6 +38,10 @@ class SessionModel {
         return $tempData;
     }
 
+    public function sessionDataExist($key) {
+        return isset($_SESSION[$key]);
+    }
+
 
 
 }
