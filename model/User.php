@@ -8,9 +8,9 @@ class User {
 
     public function __construct($username, $password) {
         if (trim($username) == '')
-            throw new \Exception("Username is missing");
-        if (strlen($password) == 0)
-            throw new \Exception("Password is missing");
+            throw new \UsernameMissingException("Username is missing");
+        if (trim($password) == '')
+            throw new \PasswordMissingException("Password is missing");
         $this->username = $username;
         $this->password = $password;
 

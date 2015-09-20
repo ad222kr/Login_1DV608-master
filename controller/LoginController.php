@@ -7,12 +7,13 @@ use model\User;
 
 class LoginController {
 
-    private $user = null;
     private $loginModel;
     private $loginView;
-    public function __construct(\model\LoginModel $loginModel) {
+    private $sessionModel;
+    public function __construct(\model\LoginModel $loginModel, \model\SessionModel $sessionModel) {
         $this->loginModel = $loginModel;
-        $this->loginView = new \view\LoginView($this->loginModel);
+        $this->sessionModel = $sessionModel;
+        $this->loginView = new \view\LoginView($this->loginModel, $this->sessionModel);;
     }
 
     /**
@@ -22,27 +23,24 @@ class LoginController {
 
         if ($this->loginView->userWantsToLogin()) {
             try {
-                $this->createUser();
-                $this->loginModel->authenticateUser($this->user);
-            } catch (\Exception $e) {
-                $this->loginView->setTempMessage($e->getMessage());
+                $user = $this->loginView->getUser();
+                $this->loginModel->authenticateUser($user);
+            } catch(\UsernameMissingException $e) {
+                $this->loginView->setTempMessage($e->getMessage()); // TODO: change logic so view handles message output
+            } catch(\PasswordMissingException $e) {
+                $this->loginView->setTempMessage($e->getMessage()); // TODO: change logic so view handles message output
+            } catch (\WrongCredentialsException $e) {
+                $this->loginView->setTempMessage($e->getMessage()); // TODO: change logic so view handles message output
             }
         } else if ($this->loginView->userWantsToLogout()) {
             $this->loginModel->logoutUser();
         }
         return $this->loginModel->userIsLoggedIn();
-
     }
 
     public function getView() {
         return $this->loginView;
     }
 
-    public function createUser() {
-        $username = $this->loginView->getRequestUserName();
-        $password = $this->loginView->getRequestPassword();
 
-
-        $this->user = new \model\User($username, $password);
-    }
 }

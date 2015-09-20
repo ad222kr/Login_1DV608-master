@@ -2,6 +2,8 @@
 
 namespace view;
 
+use model\User;
+
 class LoginView {
 	private static $login = 'LoginView::Login';
 	private static $logout = 'LoginView::Logout';
@@ -36,13 +38,13 @@ class LoginView {
 		if ($userIsLoggedIn) {
 			if ($this->userWantsToLogin()){
 				$this->setTempMessage(self::$welcomeMessage);
-				$this->redirect();
+				$this->reloadPage();
 			}
 			$response .= $this->generateLogoutButtonHTML($this->message);
 		} else {
 			if ($this->userWantsToLogout()){
 				$this->setTempMessage(self::$goodbyeMessage);
-				$this->redirect();
+				$this->reloadPage();
 			} elseif (strlen($this->message) > 0) {
 				$this->setTempMessage($this->message);
 			}
@@ -93,15 +95,19 @@ class LoginView {
 		';
 	}
 
+	public function getUser() {
+		return new User($this->getRequestUserName(), $this->getRequestPassword());
+	}
+
 	//CREATE GET-FUNCTIONS TO FETCH REQUEST VARIABLES
-	public function getRequestUserName() {
+	private function getRequestUserName() {
 		if (isset($_POST[self::$name])) {
 			return $_POST[self::$name];
 		}
 		return "";
 	}
 
-	public function getRequestPassword() {
+	private function getRequestPassword() {
 		if (isset($_POST[self::$password])) {
 			return $_POST[self::$password];
 		}
@@ -116,7 +122,7 @@ class LoginView {
 		return isset($_POST[self::$login]);
 	}
 
-	public function redirect() {
+	private function reloadPage() {
 		if ($_POST){
 			header("Location: " . $_SERVER['REQUEST_URI']);
 			exit();
@@ -131,7 +137,7 @@ class LoginView {
 		$_SESSION["tempMessage"] = $messageString;
 	}
 
-	public function getTempMessage() {
+	private function getTempMessage() {
 		$message = "";
 		if (isset($_SESSION["tempMessage"])){
 			$message = $_SESSION["tempMessage"];

@@ -14,30 +14,28 @@ class LoginModel {
     private static $password = "Password";
     private static $isLoggedInName = "isLoggedIn";
 
-    public function authenticateUser(\model\User $user) {
+    private $sessionModel;
+
+    public function __construct(SessionModel $sessionModel) {
+        $this->sessionModel = $sessionModel;
+    }
+
+    public function authenticateUser(User $user) {
         if ($user->getUsername() !== self::$username || $user->getPassword() !== self::$password)
-            throw new \Exception("Wrong name or password");
+            throw new \WrongCredentialsException("Wrong name or password");
 
         $this->loginUser();
     }
 
     private function loginUser() {
-        // TODO: move session to view?? or own class maybe
-        $_SESSION[self::$isLoggedInName] = true;
+        $this->sessionModel->setSessionData(self::$isLoggedInName, true);
     }
 
     public function logoutUser() {
-        // TODO: move session to view?? or own class maybe
-        if (isset($_SESSION[self::$isLoggedInName])) {
-            unset($_SESSION[self::$isLoggedInName]);
-        }
+        $this->sessionModel->unsetSessionData(self::$isLoggedInName);
     }
 
     public function userIsLoggedIn() {
-        // TODO: move session to view?? or own class maybe
-        if (isset($_SESSION[self::$isLoggedInName])) {
-            return $_SESSION[self::$isLoggedInName];
-        }
-        return false;
+        return $this->sessionModel->getSessionData(self::$isLoggedInName);
     }
 }
