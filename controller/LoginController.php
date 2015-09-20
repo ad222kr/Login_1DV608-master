@@ -21,8 +21,7 @@ class LoginController {
      * @return bool - if the user is logged in or not
      */
     public function doLoginAction() {
-
-        var_dump($this->loginModel->userIsLoggedIn());
+        
         if ($this->loginView->didUserPressLogin()) {
             try {
                 $user = $this->loginView->getUser();
