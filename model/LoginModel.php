@@ -36,6 +36,9 @@ class LoginModel {
     }
 
     public function userIsLoggedIn() {
-        return $this->sessionModel->getSessionData(self::$isLoggedInName);
+        if ($this->sessionModel->getSessionData(self::$isLoggedInName) != null){
+            return $this->sessionModel->getSessionData(self::$isLoggedInName);
+        }
+        return false;
     }
 }
