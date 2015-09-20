@@ -11,6 +11,10 @@ namespace model;
 
 class SessionModel {
 
+    public function __construct() {
+        session_start();
+    }
+
     public function setSessionData($key, $value) {
         $_SESSION[$key] = $value;
     }
@@ -28,14 +32,12 @@ class SessionModel {
         }
     }
 
-    public function setTempData($key, $value) {
-        $this->setSessionData($key, $value);
-    }
-
-    public function getTempData($key) {
+    public function getSessionDataAndUnset($key) {
         $tempData = $this->getSessionData($key);
         $this->unsetSessionData($key);
         return $tempData;
     }
+
+
 
 }

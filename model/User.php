@@ -13,8 +13,6 @@ class User {
             throw new \PasswordMissingException("Password is missing");
         $this->username = $username;
         $this->password = $password;
-
-        $this->isLoggedIn = false;
     }
 
     public function getUsername() {

@@ -4,10 +4,13 @@
 require_once('view/LoginView.php');
 require_once('view/DateTimeView.php');
 require_once('view/LayoutView.php');
+
 require_once('model/User.php');
-require_once('controller/LoginController.php');
 require_once('model/LoginModel.php');
 require_once('model/SessionModel.php');
+
+require_once('controller/LoginController.php');
+
 require_once('common/PasswordMissingException.php');
 require_once('common/UsernameMissingException.php');
 require_once('common/WrongCredentialsException.php');
@@ -17,25 +20,22 @@ require_once('common/WrongCredentialsException.php');
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 
-//Start session
-session_start();
-
 //CREATE OBJECTS OF THE MODELS
 $sessionModel = new \model\SessionModel();
 $loginModel = new \model\LoginModel($sessionModel);
 
 //CREATE OBJECTS OF THE VIEWS
-
-$dtv = new view\DateTimeView();
-$lv = new view\LayoutView();
+$dateTimeView = new view\DateTimeView();
+$layoutView = new view\LayoutView();
+$loginView = new view\LoginView($sessionModel);
 
 //CREATE OBJECTS OF THE CONTROLLERS
-$loginController = new \controller\LoginController($loginModel, $sessionModel);
+$loginController = new \controller\LoginController($loginModel, $sessionModel, $loginView);
 
 
 $isLoggedIn = $loginController->doLoginAction();
 $loginView = $loginController->getView();
 
 
-$lv->render($isLoggedIn, $loginView, $dtv);
+$layoutView->render($isLoggedIn, $loginView, $dateTimeView);
 

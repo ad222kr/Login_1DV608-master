@@ -15,14 +15,14 @@ class LoginView {
 	private static $messageId = 'LoginView::Message';
 	private static $welcomeMessage = "Welcome";
 	private static $goodbyeMessage = "Bye bye!";
+	private static $messageKey = "tempMessage";
 
-	private $message = "";
-	private $loginModel;
+    private $sessionModel;
+    private $message = null;
 
-	public function __construct(\model\LoginModel $loginModel) {
-		$this->loginModel = $loginModel;
-	}
-
+    public function __construct(\model\SessionModel $sessionModel) {
+        $this->sessionModel = $sessionModel;
+    }
 
 	/**
 	 * Create HTTP response
@@ -32,27 +32,57 @@ class LoginView {
 	 * @return  void BUT writes to standard output and cookies!
 	 */
 	public function response($userIsLoggedIn) {
-		$response = "";
-		$message = "";
+        /* $response = "";
 
 		if ($userIsLoggedIn) {
-			if ($this->userWantsToLogin()){
+			if ($this->didUserPressLogin()){
 				$this->setTempMessage(self::$welcomeMessage);
 				$this->reloadPage();
 			}
-			$response .= $this->generateLogoutButtonHTML($this->message);
+			$response = $this->generateLogoutButtonHTML($this->message);
 		} else {
-			if ($this->userWantsToLogout()){
+			if ($this->didUserPressLogout()){
 				$this->setTempMessage(self::$goodbyeMessage);
 				$this->reloadPage();
-			} elseif (strlen($this->message) > 0) {
-				$this->setTempMessage($this->message);
 			}
-
-			$response .= $this->generateLoginFormHTML($message);
+			$response = $this->generateLoginFormHTML($this->message);
 		}
-		return $response;
+        */
+        $response = "";
+        $message = "";
+
+        if ($userIsLoggedIn) {
+            if ($this->didUserPressLogin()) {
+                $this->sessionModel->setSessionData(self::$messageKey, self::$welcomeMessage);
+                $this->reloadPage();
+            }
+            $message = $this->generateMessage();
+            $response = $this->generateLogoutButtonHTML($message);
+        } else {
+            if ($this->didUserPressLogut()) {
+                $this->sessionModel->setSessionData(self::$messageKey, self::$goodbyeMessage);
+                $this->reloadPage();
+            }
+            $message = $this->generateMessage();
+            $response = $this->generateLoginFormHTML($message);
+        }
+        return $response;
 	}
+
+    /**
+     * @return string, a message that shows feedback to the user
+     */
+    public function generateMessage() {
+        $message = "";
+
+        if ($this->sessionModel->getSessionData(self::$messageKey) != null) {
+            $message = $this->sessionModel->getSessionDataAndUnset(self::$messageKey);
+        } elseif ($this->message != null) {
+            $message = $this->message;
+        }
+
+        return $message;
+    }
 
 	/**
 	* Generate HTML code on the output buffer for the logout button
@@ -62,7 +92,7 @@ class LoginView {
 	private function generateLogoutButtonHTML($message) {
 		return '
 			<form  method="post" >
-				<p id="' . self::$messageId . '">' . $this->getTempMessage() .'</p>
+				<p id="' . self::$messageId . '">' . $message .'</p>
 				<input type="submit" name="' . self::$logout . '" value="logout"/>
 			</form>
 		';
@@ -78,7 +108,7 @@ class LoginView {
 			<form method="post" > 
 				<fieldset>
 					<legend>Login - enter Username and password</legend>
-					<p id="' . self::$messageId . '">' . $this->getTempMessage() . '</p>
+					<p id="' . self::$messageId . '">' . $message . '</p>
 					
 					<label for="' . self::$name . '">Username :</label>
 					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="'.$this->getRequestUserName().'" />
@@ -95,11 +125,16 @@ class LoginView {
 		';
 	}
 
+    /**
+     * @return User, object of \model\User
+     */
 	public function getUser() {
 		return new User($this->getRequestUserName(), $this->getRequestPassword());
 	}
 
-	//CREATE GET-FUNCTIONS TO FETCH REQUEST VARIABLES
+    /**
+     * @return string, username typed in the form
+     */
 	private function getRequestUserName() {
 		if (isset($_POST[self::$name])) {
 			return $_POST[self::$name];
@@ -107,6 +142,10 @@ class LoginView {
 		return "";
 	}
 
+
+    /**
+     * @return string, password typed in the form
+     */
 	private function getRequestPassword() {
 		if (isset($_POST[self::$password])) {
 			return $_POST[self::$password];
@@ -114,13 +153,21 @@ class LoginView {
 		return "";
 	}
 
-	public function userWantsToLogout() {
+    /**
+     * @return bool - if the user pressed logout button
+     */
+	public function didUserPressLogut() {
 		return isset($_POST[self::$logout]);
 	}
 
-	public function userWantsToLogin() {
+
+    /**
+     * @return bool - if the user pressed login button
+     */
+	public function didUserPressLogin() {
 		return isset($_POST[self::$login]);
 	}
+
 
 	private function reloadPage() {
 		if ($_POST){
@@ -132,19 +179,4 @@ class LoginView {
 	public function setMessage($message) {
 		$this->message = $message;
 	}
-
-	public function setTempMessage($messageString) {
-		$_SESSION["tempMessage"] = $messageString;
-	}
-
-	private function getTempMessage() {
-		$message = "";
-		if (isset($_SESSION["tempMessage"])){
-			$message = $_SESSION["tempMessage"];
-			unset($_SESSION["tempMessage"]);
-		}
-		return $message;
-	}
-
-
 }

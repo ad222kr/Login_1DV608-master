@@ -10,10 +10,11 @@ class LoginController {
     private $loginModel;
     private $loginView;
     private $sessionModel;
-    public function __construct(\model\LoginModel $loginModel, \model\SessionModel $sessionModel) {
+    public function __construct(\model\LoginModel $loginModel, \model\SessionModel $sessionModel,
+                                \view\LoginView $loginView) {
         $this->loginModel = $loginModel;
         $this->sessionModel = $sessionModel;
-        $this->loginView = new \view\LoginView($this->loginModel, $this->sessionModel);;
+        $this->loginView = $loginView;
     }
 
     /**
@@ -21,18 +22,18 @@ class LoginController {
      */
     public function doLoginAction() {
 
-        if ($this->loginView->userWantsToLogin()) {
+        if ($this->loginView->didUserPressLogin()) {
             try {
                 $user = $this->loginView->getUser();
                 $this->loginModel->authenticateUser($user);
             } catch(\UsernameMissingException $e) {
-                $this->loginView->setTempMessage($e->getMessage()); // TODO: change logic so view handles message output
+                $this->loginView->setMessage($e->getMessage()); // TODO: change logic so view handles message output
             } catch(\PasswordMissingException $e) {
-                $this->loginView->setTempMessage($e->getMessage()); // TODO: change logic so view handles message output
+                $this->loginView->setMessage($e->getMessage()); // TODO: change logic so view handles message output
             } catch (\WrongCredentialsException $e) {
-                $this->loginView->setTempMessage($e->getMessage()); // TODO: change logic so view handles message output
+                $this->loginView->setMessage($e->getMessage()); // TODO: change logic so view handles message output
             }
-        } else if ($this->loginView->userWantsToLogout()) {
+        } else if ($this->loginView->didUserPressLogut() && $this->loginModel->userIsLoggedIn()) {
             $this->loginModel->logoutUser();
         }
         return $this->loginModel->userIsLoggedIn();
