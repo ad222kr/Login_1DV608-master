@@ -29,50 +29,30 @@ class LoginView {
 	 *
 	 * Should be called after a login attempt has been determined
 	 *
+     * @param $userIsLoggedIn, bool wheter the user is logged in
 	 * @return  void BUT writes to standard output and cookies!
 	 */
 	public function response($userIsLoggedIn) {
-        /* $response = "";
-
-		if ($userIsLoggedIn) {
-			if ($this->didUserPressLogin()){
-				$this->setTempMessage(self::$welcomeMessage);
-				$this->reloadPage();
-			}
-			$response = $this->generateLogoutButtonHTML($this->message);
-		} else {
-			if ($this->didUserPressLogout()){
-				$this->setTempMessage(self::$goodbyeMessage);
-				$this->reloadPage();
-			}
-			$response = $this->generateLoginFormHTML($this->message);
-		}
-        */
         $response = "";
-        $message = "";
 
         if ($userIsLoggedIn) {
             if ($this->didUserPressLogin()) {
-                $this->sessionModel->setSessionData(self::$messageKey, self::$welcomeMessage);
+                $this->setMessage(self::$welcomeMessage, true);
                 $this->reloadPage();
             }
-            $message = $this->generateMessage();
-            $response = $this->generateLogoutButtonHTML($message);
+            $response .= $this->generateLogoutButtonHTML($this->getMessage());
         } else {
             if ($this->didUserPressLogut()) {
-                $this->sessionModel->setSessionData(self::$messageKey, self::$goodbyeMessage);
+                $this->setMessage(self::$goodbyeMessage, true);;
                 $this->reloadPage();
             }
-            $message = $this->generateMessage();
-            $response = $this->generateLoginFormHTML($message);
+            $response .= $this->generateLoginFormHTML($this->getMessage());
         }
         return $response;
 	}
 
-    /**
-     * @return string, a message that shows feedback to the user
-     */
-    public function generateMessage() {
+
+    public function getMessage() {
         $message = "";
 
         if ($this->sessionModel->getSessionData(self::$messageKey) != null) {
@@ -82,6 +62,20 @@ class LoginView {
         }
 
         return $message;
+    }
+
+    /**
+     * public for now so the controller can set message
+     * TODO: fix logic to set messages for error in the view instead of passing Exception->getMessage()
+     * @param $message, String feedback to the user
+     * @param $isSessionVariable, bool if the message needs to persist a redirect
+     */
+    public function setMessage($message, $isSessionVariable = false) {
+        if ($isSessionVariable) {
+            $this->sessionModel->setSessionData(self::$messageKey, $message);
+        } else {
+            $this->message = $message;
+        }
     }
 
 	/**
@@ -142,7 +136,6 @@ class LoginView {
 		return "";
 	}
 
-
     /**
      * @return string, password typed in the form
      */
@@ -160,14 +153,12 @@ class LoginView {
 		return isset($_POST[self::$logout]);
 	}
 
-
     /**
      * @return bool - if the user pressed login button
      */
 	public function didUserPressLogin() {
 		return isset($_POST[self::$login]);
 	}
-
 
 	private function reloadPage() {
 		if ($_POST){
@@ -176,7 +167,5 @@ class LoginView {
 		}
 	}
 
-	public function setMessage($message) {
-		$this->message = $message;
-	}
+
 }

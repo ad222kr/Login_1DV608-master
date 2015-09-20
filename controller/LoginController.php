@@ -21,7 +21,6 @@ class LoginController {
      * @return bool - if the user is logged in or not
      */
     public function doLoginAction() {
-        
         if ($this->loginView->didUserPressLogin()) {
             try {
                 $user = $this->loginView->getUser();
@@ -33,9 +32,18 @@ class LoginController {
             } catch (\WrongCredentialsException $e) {
                 $this->loginView->setMessage($e->getMessage()); // TODO: change logic so view handles message output
             }
-        } else if ($this->loginView->didUserPressLogut() && $this->loginModel->userIsLoggedIn()) {
-            $this->loginModel->logoutUser();
         }
+
+        if ($this->loginModel->userIsLoggedIn() && $this->loginView->didUserPressLogut()) {
+
+            $this->loginModel->logoutUser();
+
+
+        }
+
+        //var_dump($this->loginModel->userIsLoggedIn());
+
+
         return $this->loginModel->userIsLoggedIn();
     }
 
