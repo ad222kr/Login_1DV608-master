@@ -37,12 +37,7 @@ class LoginController {
         if ($this->loginModel->userIsLoggedIn() && $this->loginView->didUserPressLogut()) {
 
             $this->loginModel->logoutUser();
-
-
         }
-
-        //var_dump($this->loginModel->userIsLoggedIn());
-
 
         return $this->loginModel->userIsLoggedIn();
     }
