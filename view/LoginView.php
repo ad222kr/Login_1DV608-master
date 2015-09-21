@@ -41,7 +41,6 @@ class LoginView {
 
         if ($this->loginModel->userIsLoggedIn()) {
             if ($this->didUserPressLogin()) {
-                $this->setMessage(self::$welcomeMessage, true);
                 $this->reloadPage();
             } else {
                 $message = $this->getMessage();

@@ -24,7 +24,7 @@ class LoginController {
 
         if ($this->loginModel->userIsLoggedIn() && $this->loginView->didUserPressLogout()) {
                 $this->loginModel->logoutUser();
-                unset($_POST["LoginView::Logout"]); // 
+                $this->loginView->setMessage("Bye bye!", true);
         } else {
             if ($this->loginView->didUserPressLogin()) {
                 try {
