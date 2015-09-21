@@ -23,17 +23,6 @@ class LoginController {
     public function doLoginAction() {
 
         if ($this->loginModel->userIsLoggedIn()) {
-
-
-        }
-
-        else if ($this->loginModel->userIsLoggedIn() && $this->loginView->didUserPressLogut()) {
-
-            $this->loginModel->logoutUser();
-        }
-
-
-        if ($this->loginModel->userIsLoggedIn()) {
             if ($this->loginView->didUserPressLogut())
                 $this->loginModel->logoutUser();
         } else {
