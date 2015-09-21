@@ -23,21 +23,17 @@ class LoginController {
     public function doLoginAction() {
 
         if ($this->loginModel->userIsLoggedIn() && $this->loginView->didUserPressLogout()) {
-                $this->loginView->setMessage("Bye bye!", true);
+                $this->loginView->setMessage("Bye bye!", true); // Not sure if this is OK
                 $this->loginModel->logoutUser();
-        } else {
-            if ($this->loginView->didUserPressLogin()) {
-                try {
-                    $user = $this->loginView->getUser();
+        } else if (!$this->loginModel->userIsLoggedIn() && $this->loginView->didUserPressLogin()) {
+            try {
+                $user = $this->loginView->getUser();
+                if ($user != null) {
                     $this->loginModel->authenticateUser($user);
-                    $this->loginView->setMessage("Welcome", true);
-                } catch(\UsernameMissingException $e) {
-                    $this->loginView->setMessage($e->getMessage()); // TODO: change logic so view handles message output
-                } catch(\PasswordMissingException $e) {
-                    $this->loginView->setMessage($e->getMessage()); // TODO: change logic so view handles message output
-                } catch (\WrongCredentialsException $e) {
-                    $this->loginView->setMessage($e->getMessage()); // TODO: change logic so view handles message output
+                    $this->loginView->setMessage("Welcome", true); // Not sure if this is OK
                 }
+            }  catch (\WrongCredentialsException $e) {
+                $this->loginView->setMessage($e->getMessage()); // TODO: change logic so view handles message output
             }
         }
 

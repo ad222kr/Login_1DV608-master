@@ -16,6 +16,8 @@ class LoginView {
     private static $messageKey = "LoginView::TempMessage";
     private static $welcomeMessage = "Welcome";
     private static $goodbyeMessage = "Bye bye!";
+    private static $nameMissingMessage = "Username is missing";
+    private static $passwordMissingMessage = "Password is missing";
 
     private $sessionModel;
     private $loginModel;
@@ -139,7 +141,13 @@ class LoginView {
     * @return User, object of \model\User
     */
     public function getUser() {
-        return new User($this->getRequestUserName(), $this->getRequestPassword());
+        try {
+            return new User($this->getRequestUserName(), $this->getRequestPassword());
+        } catch (\UsernameMissingException $e) {
+            $this->setMessage(self::$nameMissingMessage);
+        } catch (\PasswordMissingException $e) {
+            $this->setMessage(self::$passwordMissingMessage);
+        }
     }
 
     /**
