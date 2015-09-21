@@ -18,6 +18,7 @@ class LoginView {
     private static $goodbyeMessage = "Bye bye!";
     private static $nameMissingMessage = "Username is missing";
     private static $passwordMissingMessage = "Password is missing";
+    private static $wrongCredentialsMessage = "Wrong name or password";
 
     private $sessionModel;
     private $loginModel;
@@ -58,42 +59,6 @@ class LoginView {
 
         }
         return $response;
-    }
-
-
-    /**
-     * Returns a message set to the $_SESSION-array if one exists, for the
-     * messages that needs to persist between redirects. If such message does
-     * not exist, checks the member variable message that holds error-messages
-     * to be shown on the login-screen. These does not need to be in $_SESSION
-     * since it saves POST-data.
-     *
-     * @return null|string, message for the user, null string if no message is set
-     */
-    private function getMessage() {
-        $message = "";
-        if ($this->sessionModel->sessionDataExist(self::$messageKey)) {
-            $message = $this->sessionModel->getSessionDataAndUnset(self::$messageKey);
-        } elseif ($this->message != null) {
-            $message = $this->message;
-        }
-        return $message;
-    }
-
-
-
-    /**
-     * public for now so the controller can set message
-     * TODO: fix logic to set messages for error in the view instead of passing Exception->getMessage()
-     * @param $message, String feedback to the user
-     * @param $isSessionVariable, bool if the message needs to persist a redirect
-     */
-    public function setMessage($message, $isSessionVariable = false) {
-        if ($isSessionVariable) {
-            $this->sessionModel->setSessionData(self::$messageKey, $message);
-        } else {
-            $this->message = $message;
-        }
     }
 
 	/**
@@ -137,6 +102,18 @@ class LoginView {
         ';
     }
 
+    public function setLoginSucceeded() {
+        $this->setMessage(self::$welcomeMessage, true);
+    }
+
+    public function setLogoutSucceeded() {
+        $this->setMessage(self::$goodbyeMessage, true);
+    }
+
+    public function setLoginFailed() {
+        $this->setMessage(self::$wrongCredentialsMessage);
+    }
+
     /**
     * @return User, object of \model\User
     */
@@ -151,9 +128,37 @@ class LoginView {
     }
 
     /**
+     * Gets a message from the $_SESSION-array if there is any, else it takes the
+     * member-variable.
+     * @return null|string, message for the user, null string if no message is set
+     */
+    private function getMessage() {
+        $message = "";
+        if ($this->sessionModel->sessionDataExist(self::$messageKey)) {
+            $message = $this->sessionModel->getSessionDataAndUnset(self::$messageKey);
+        } elseif ($this->message != null) {
+            $message = $this->message;
+        }
+        return $message;
+    }
+
+    /**
+     * Sets a message to the $_SESSION-array if needed, else to the member variable
+     * @param $message, String feedback to the user
+     * @param $isSessionVariable, bool if the message needs to persist a redirect
+     */
+    private function setMessage($message, $isSessionVariable = false) {
+        if ($isSessionVariable) {
+            $this->sessionModel->setSessionData(self::$messageKey, $message);
+        } else {
+            $this->message = $message;
+        }
+    }
+
+    /**
     * @return string, username typed in the form
     */
-        private function getRequestUserName() {
+    private function getRequestUserName() {
         if (isset($_POST[self::$name])) {
             return $_POST[self::$name];
         }

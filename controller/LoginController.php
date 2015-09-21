@@ -22,22 +22,30 @@ class LoginController {
      */
     public function doLoginAction() {
 
-        if ($this->loginModel->userIsLoggedIn() && $this->loginView->didUserPressLogout()) {
-                $this->loginView->setMessage("Bye bye!", true); // Not sure if this is OK
-                $this->loginModel->logoutUser();
-        } else if (!$this->loginModel->userIsLoggedIn() && $this->loginView->didUserPressLogin()) {
-            try {
-                $user = $this->loginView->getUser();
-                if ($user != null) {
-                    $this->loginModel->authenticateUser($user);
-                    $this->loginView->setMessage("Welcome", true); // Not sure if this is OK
-                }
-            }  catch (\WrongCredentialsException $e) {
-                $this->loginView->setMessage($e->getMessage()); // TODO: change logic so view handles message output
-            }
+        if (!$this->loginModel->userIsLoggedIn() && $this->loginView->didUserPressLogin()) {
+            $this->login();
+        } else if ($this->loginModel->userIsLoggedIn() && $this->loginView->didUserPressLogout()) {
+            $this->logout();
         }
 
         return $this->loginModel->userIsLoggedIn();
+    }
+
+    private function login() {
+        try {
+            $user = $this->loginView->getUser();
+            if ($user != null) {
+                $this->loginModel->authenticateUser($user);
+                $this->loginView->setLoginSucceeded();
+            }
+        }  catch (\WrongCredentialsException $e) {
+            $this->loginView->setLoginFailed();
+        }
+    }
+
+    private function logout() {
+        $this->loginView->setLogoutSucceeded();
+        $this->loginModel->logoutUser();
     }
 
     public function getView() {
