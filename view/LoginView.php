@@ -18,10 +18,13 @@ class LoginView {
     private static $goodbyeMessage = "Bye bye!";
 
     private $sessionModel;
+    private $loginModel;
     private $message;
 
-    public function __construct(\model\SessionModel $sessionModel) {
+
+    public function __construct(\model\SessionModel $sessionModel, \model\LoginModel $loginModel) {
         $this->sessionModel = $sessionModel;
+        $this->loginModel = $loginModel;
     }
 
     /**
@@ -32,11 +35,11 @@ class LoginView {
      * @param $userIsLoggedIn, bool whether the user is logged in
      * @return  void BUT writes to standard output and cookies!
      */
-    public function response($userIsLoggedIn) {
+    public function response() {
         $response = "";
         $message = "";
 
-        if ($userIsLoggedIn) {
+        if ($this->loginModel->userIsLoggedIn()) {
             if ($this->didUserPressLogin()) {
                 $this->setMessage(self::$welcomeMessage, true);
                 $this->reloadPage();

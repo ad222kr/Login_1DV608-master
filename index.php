@@ -27,7 +27,7 @@ $loginModel = new \model\LoginModel($sessionModel);
 //CREATE OBJECTS OF THE VIEWS
 $dateTimeView = new view\DateTimeView();
 $layoutView = new view\LayoutView();
-$loginView = new view\LoginView($sessionModel);
+$loginView = new view\LoginView($sessionModel, $loginModel);
 
 //CREATE OBJECTS OF THE CONTROLLERS
 $loginController = new \controller\LoginController($loginModel, $sessionModel, $loginView);
