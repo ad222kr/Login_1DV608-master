@@ -2,7 +2,6 @@
 
 namespace view;
 
-use model\User;
 
 class LoginView {
     private static $login = 'LoginView::Login';
@@ -13,20 +12,20 @@ class LoginView {
     private static $cookiePassword = 'LoginView::CookiePassword';
     private static $keep = 'LoginView::KeepMeLoggedIn';
     private static $messageId = 'LoginView::Message';
-    private static $messageKey = "LoginView::TempMessage";
+
     private static $welcomeMessage = "Welcome";
     private static $goodbyeMessage = "Bye bye!";
     private static $nameMissingMessage = "Username is missing";
     private static $passwordMissingMessage = "Password is missing";
     private static $wrongCredentialsMessage = "Wrong name or password";
 
-    private $sessionModel;
+    private $sessionHandler;
     private $loginModel;
-    private $message;
+    private $message = null;
 
 
-    public function __construct(\model\SessionModel $sessionModel, \model\LoginModel $loginModel) {
-        $this->sessionModel = $sessionModel;
+    public function __construct(\common\SessionHandler $sessionHandler, \model\LoginModel $loginModel) {
+        $this->sessionHandler = $sessionHandler;
         $this->loginModel = $loginModel;
     }
 
@@ -35,7 +34,6 @@ class LoginView {
      *
      * Should be called after a login attempt has been determined
      *
-     * @param $userIsLoggedIn, bool whether the user is logged in
      * @return  void BUT writes to standard output and cookies!
      */
     public function response() {
@@ -56,7 +54,6 @@ class LoginView {
                 $message = $this->getMessage();
             }
             $response .= $this->generateLoginFormHTML($message);
-
         }
         return $response;
     }
@@ -133,13 +130,10 @@ class LoginView {
      * @return null|string, message for the user, null string if no message is set
      */
     private function getMessage() {
-        $message = "";
-        if ($this->sessionModel->sessionDataExist(self::$messageKey)) {
-            $message = $this->sessionModel->getSessionDataAndUnset(self::$messageKey);
-        } elseif ($this->message != null) {
-            $message = $this->message;
+        if (strlen($this->message) > 0) {
+            return $this->message;
         }
-        return $message;
+        return $this->sessionHandler->getMessage();
     }
 
     /**
@@ -149,7 +143,7 @@ class LoginView {
      */
     private function setMessage($message, $isSessionVariable = false) {
         if ($isSessionVariable) {
-            $this->sessionModel->setSessionData(self::$messageKey, $message);
+            $this->sessionHandler->setMessage($message);
         } else {
             $this->message = $message;
         }
@@ -193,6 +187,4 @@ class LoginView {
         header("Location: " . $_SERVER['REQUEST_URI']);
         exit();
     }
-
-
 }

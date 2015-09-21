@@ -9,11 +9,9 @@ class LoginController {
 
     private $loginModel;
     private $loginView;
-    private $sessionModel;
-    public function __construct(\model\LoginModel $loginModel, \model\SessionModel $sessionModel,
-                                \view\LoginView $loginView) {
+
+    public function __construct(\model\LoginModel $loginModel, \view\LoginView $loginView) {
         $this->loginModel = $loginModel;
-        $this->sessionModel = $sessionModel;
         $this->loginView = $loginView;
     }
 

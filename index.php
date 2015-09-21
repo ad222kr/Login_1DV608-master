@@ -7,7 +7,7 @@ require_once('view/LayoutView.php');
 
 require_once('model/User.php');
 require_once('model/LoginModel.php');
-require_once('model/SessionModel.php');
+require_once('common/SessionHandler.php');
 
 require_once('controller/LoginController.php');
 
@@ -21,16 +21,16 @@ error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 
 //CREATE OBJECTS OF THE MODELS
-$sessionModel = new \model\SessionModel();
-$loginModel = new \model\LoginModel($sessionModel);
+$sessionHandler = new \common\SessionHandler();
+$loginModel = new \model\LoginModel($sessionHandler);
 
 //CREATE OBJECTS OF THE VIEWS
 $dateTimeView = new view\DateTimeView();
 $layoutView = new view\LayoutView();
-$loginView = new view\LoginView($sessionModel, $loginModel);
+$loginView = new view\LoginView($sessionHandler, $loginModel);
 
 //CREATE OBJECTS OF THE CONTROLLERS
-$loginController = new \controller\LoginController($loginModel, $sessionModel, $loginView);
+$loginController = new \controller\LoginController($loginModel, $loginView);
 
 
 $isLoggedIn = $loginController->doLoginAction();

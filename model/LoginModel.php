@@ -12,12 +12,11 @@ namespace model;
 class LoginModel {
     private static $username = "Admin";
     private static $password = "Password";
-    private static $isLoggedInName = "isLoggedIn";
 
-    private $sessionModel;
+    private $sessionHandler;
 
-    public function __construct(SessionModel $sessionModel) {
-        $this->sessionModel = $sessionModel;
+    public function __construct(\common\SessionHandler $sessionHandler) {
+        $this->sessionHandler = $sessionHandler;
     }
 
     public function authenticateUser(User $user) {
@@ -28,17 +27,15 @@ class LoginModel {
     }
 
     private function loginUser() {
-        $this->sessionModel->setSessionData(self::$isLoggedInName, true);
+        $this->sessionHandler->setLoggedIn();
     }
 
     public function logoutUser() {
-        $this->sessionModel->unsetSessionData(self::$isLoggedInName);
+        $this->sessionHandler->unsetLoggedIn();
     }
 
     public function userIsLoggedIn() {
-        if ($this->sessionModel->getSessionData(self::$isLoggedInName) != null){
-            return $this->sessionModel->getSessionData(self::$isLoggedInName);
-        }
-        return false;
+        if ($this->sessionHandler != null)
+            return $this->sessionHandler->getLoggedIn();
     }
 }
