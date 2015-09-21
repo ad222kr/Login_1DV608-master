@@ -23,13 +23,14 @@ class LoginController {
     public function doLoginAction() {
 
         if ($this->loginModel->userIsLoggedIn() && $this->loginView->didUserPressLogout()) {
-                $this->loginModel->logoutUser();
                 $this->loginView->setMessage("Bye bye!", true);
+                $this->loginModel->logoutUser();
         } else {
             if ($this->loginView->didUserPressLogin()) {
                 try {
                     $user = $this->loginView->getUser();
                     $this->loginModel->authenticateUser($user);
+                    $this->loginView->setMessage("Welcome", true);
                 } catch(\UsernameMissingException $e) {
                     $this->loginView->setMessage($e->getMessage()); // TODO: change logic so view handles message output
                 } catch(\PasswordMissingException $e) {

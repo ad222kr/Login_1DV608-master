@@ -48,7 +48,6 @@ class LoginView {
             $response .= $this->generateLogoutButtonHTML($message);
         } else {
             if ($this->didUserPressLogout()) {
-                $this->setMessage(self::$goodbyeMessage, true);
                 $this->reloadPage();
             } else {
                 $message = $this->getMessage();
