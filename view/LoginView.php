@@ -48,7 +48,7 @@ class LoginView {
             }
             $response .= $this->generateLogoutButtonHTML($message);
         } else {
-            if ($this->didUserPressLogut()) {
+            if ($this->didUserPressLogout()) {
                 $this->setMessage(self::$goodbyeMessage, true);
                 $this->reloadPage();
             } else {
@@ -167,7 +167,7 @@ class LoginView {
     /**
      * @return bool - if the user pressed logout button
      */
-    public function didUserPressLogut() {
+    public function didUserPressLogout() {
         return isset($_POST[self::$logout]);
     }
 
