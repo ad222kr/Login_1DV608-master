@@ -8,6 +8,7 @@ require_once('view/LayoutView.php');
 require_once('model/User.php');
 require_once('model/LoginModel.php');
 require_once('common/SessionHandler.php');
+require_once('common/CookieHandler.php');
 
 require_once('controller/LoginController.php');
 
@@ -19,15 +20,21 @@ require_once('common/WrongCredentialsException.php');
 //MAKE SURE ERRORS ARE SHOWN... MIGHT WANT TO TURN THIS OFF ON A PUBLIC SERVER
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
+date_default_timezone_set("Europe/Stockholm");
+
+
+
+
 
 //CREATE OBJECTS OF THE MODELS
 $sessionHandler = new \common\SessionHandler();
-$loginModel = new \model\LoginModel($sessionHandler);
+$cookieHanlder = new common\CookieHandler();
+$loginModel = new \model\LoginModel($sessionHandler);;
 
 //CREATE OBJECTS OF THE VIEWS
 $dateTimeView = new view\DateTimeView();
 $layoutView = new view\LayoutView();
-$loginView = new view\LoginView($sessionHandler, $loginModel);
+$loginView = new view\LoginView($sessionHandler, $cookieHanlder, $loginModel);
 
 //CREATE OBJECTS OF THE CONTROLLERS
 $loginController = new \controller\LoginController($loginModel, $loginView);

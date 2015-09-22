@@ -20,13 +20,16 @@ class LoginView {
     private static $wrongCredentialsMessage = "Wrong name or password";
 
     private $sessionHandler;
+    private $cookieHandler;
     private $loginModel;
     private $message = null;
 
 
-    public function __construct(\common\SessionHandler $sessionHandler, \model\LoginModel $loginModel) {
+    public function __construct(\common\SessionHandler $sessionHandler, \common\CookieHandler $cookieHandler,
+                                \model\LoginModel $loginModel) {
         $this->sessionHandler = $sessionHandler;
         $this->loginModel = $loginModel;
+        $this->cookieHandler = $cookieHandler;
     }
 
     /**
@@ -42,6 +45,10 @@ class LoginView {
 
         if ($this->loginModel->userIsLoggedIn()) {
             if ($this->didUserPressLogin()) {
+                if ($this->userWantsToBeRemembered()) {
+                    $this->cookieHandler->setRememberUserCookie($this->getRequestUserName(),
+                        $this->getRequestPassword());
+                }
                 $this->reloadPage();
             } else {
                 $message = $this->getMessage();
@@ -116,7 +123,7 @@ class LoginView {
     */
     public function getUser() {
         try {
-            return new User($this->getRequestUserName(), $this->getRequestPassword());
+            return new \model\User($this->getRequestUserName(), $this->getRequestPassword());
         } catch (\UsernameMissingException $e) {
             $this->setMessage(self::$nameMissingMessage);
         } catch (\PasswordMissingException $e) {
@@ -181,6 +188,10 @@ class LoginView {
      */
     public function didUserPressLogin() {
         return isset($_POST[self::$login]);
+    }
+
+    public function userWantsToBeRemembered() {
+        return isset($_POST[self::$keep]);
     }
 
     private function reloadPage() {
