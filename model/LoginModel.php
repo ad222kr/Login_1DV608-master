@@ -38,4 +38,8 @@ class LoginModel {
         if ($this->sessionHandler != null)
             return $this->sessionHandler->getLoggedIn();
     }
+
+    private function encryptPassword($password) {
+        
+    }
 }

@@ -123,6 +123,10 @@ class LoginView {
         $this->setMessage(self::$wrongCredentialsMessage);
     }
 
+    public function loginByCookies() {
+
+    }
+
     /**
     * @return User, object of \model\User
     */
@@ -194,6 +198,7 @@ class LoginView {
     public function didUserPressLogin() {
         return isset($_POST[self::$login]);
     }
+
 
     public function userWantsToBeRemembered() {
         return isset($_POST[self::$keep]);

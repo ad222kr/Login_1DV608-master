@@ -30,11 +30,19 @@ class CookieHandler {
 
     public function setRememberUserCookie($username,$password) {
         $this->setCookie(self::$cookieName, $username, 30);
-        $this->setCookie(self::$cookiePassword, $this->getRandomizedPasswordString($password), 30);
+        $this->setCookie(self::$cookiePassword, $this->getEncryptedPassword($password), 30);
 
     }
 
-    private function getRandomizedPasswordString($password) {
+    public function userNameCookieExists() {
+
+    }
+
+    public function passWordCookieExists() {
+
+    }
+
+    private function getEncryptedPassword($password) {
         return hash("sha256", $password);
     }
 

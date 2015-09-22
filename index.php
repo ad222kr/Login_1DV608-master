@@ -28,13 +28,13 @@ date_default_timezone_set("Europe/Stockholm");
 
 //CREATE OBJECTS OF THE MODELS
 $sessionHandler = new \common\SessionHandler();
-$cookieHanlder = new common\CookieHandler();
+$cookieHandler = new common\CookieHandler();
 $loginModel = new \model\LoginModel($sessionHandler);;
 
 //CREATE OBJECTS OF THE VIEWS
 $dateTimeView = new view\DateTimeView();
 $layoutView = new view\LayoutView();
-$loginView = new view\LoginView($sessionHandler, $cookieHanlder, $loginModel);
+$loginView = new view\LoginView($sessionHandler, $cookieHandler, $loginModel);
 
 //CREATE OBJECTS OF THE CONTROLLERS
 $loginController = new \controller\LoginController($loginModel, $loginView);
