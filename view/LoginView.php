@@ -14,6 +14,7 @@ class LoginView {
     private static $messageId = 'LoginView::Message';
 
     private static $welcomeMessage = "Welcome";
+    private static $rememberWelcomeMessage = "Welcome and you will be remembered";
     private static $goodbyeMessage = "Bye bye!";
     private static $nameMissingMessage = "Username is missing";
     private static $passwordMissingMessage = "Password is missing";
@@ -107,7 +108,11 @@ class LoginView {
     }
 
     public function setLoginSucceeded() {
-        $this->setMessage(self::$welcomeMessage, true);
+        if ($this->userWantsToBeRemembered()) {
+            $this->setMessage(self::$rememberWelcomeMessage, true);
+        } else {
+            $this->setMessage(self::$welcomeMessage, true);
+        }
     }
 
     public function setLogoutSucceeded() {
