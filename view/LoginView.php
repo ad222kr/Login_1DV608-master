@@ -22,9 +22,24 @@ class LoginView {
     private static $wrongCredentialsMessage = "Wrong name or password";
     private static $welcomeWithCookieMessage = "Welcome back with cookie";
 
+    /**
+     * @var \common\ITempMessageHandler
+     */
     private $tempMessageHandler;
+
+    /**
+     * @var \view\CookieHandler
+     */
     private $cookieHandler;
+
+    /**
+     * @var \model\LoginModel
+     */
     private $loginModel;
+
+    /**
+     * @var String, Feedback message
+     */
     private $message = null;
 
 
@@ -68,8 +83,7 @@ class LoginView {
             $this->setMessage(self::$rememberWelcomeMessage, true);
         } elseif ($this->userCredentialCookieExists()) {
             $this->setMessage(self::$welcomeWithCookieMessage, true);
-        }
-        else {
+        } else {
             $this->setMessage(self::$welcomeMessage, true);
         }
         $this->reloadPage();
@@ -112,7 +126,7 @@ class LoginView {
     /**
      * Gets a message from the $_SESSION-array if there is any, else it takes the
      * member-variable.
-     * @return null|string, message for the user, null string if no message is set
+     * @return string, message for the user, empty if no message is set
      */
     private function getMessage() {
         if (strlen($this->message) > 0) {
@@ -133,10 +147,6 @@ class LoginView {
             $this->message = $message;
         }
     }
-
-    /**
-     * @return string
-     */
 
     public function userCredentialCookieExists() {
         if ($this->cookieHandler->getCookie(self::$cookieName) != null &&
@@ -177,6 +187,11 @@ class LoginView {
         exit();
     }
 
+    private function sanitizeInput($stringToSanitize) {
+        $ret = htmlspecialchars($stringToSanitize, ENT_COMPAT,'ISO-8859-1');
+        return $ret;
+    }
+
     /**
      * Generate HTML code on the output buffer for the logout button
      * @param $message, String output message
@@ -189,11 +204,6 @@ class LoginView {
                 <input type="submit" name="' . self::$logout . '" value="logout"/>
             </form>
         ';
-    }
-
-    private function sanitizeInput($stringToSanitize) {
-        $ret = htmlspecialchars($stringToSanitize, ENT_COMPAT,'ISO-8859-1');
-        return $ret;
     }
 
     /**

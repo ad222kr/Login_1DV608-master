@@ -7,6 +7,8 @@ class User {
     private $password;
 
     public function __construct($username, $password) {
+        assert(is_string($username), "Username needs to be of type string");
+        assert(is_string($password), "Password needs to be of type string");
         if (trim($username) == '')
             throw new \UsernameMissingException("Username is missing");
         if (trim($password) == '')

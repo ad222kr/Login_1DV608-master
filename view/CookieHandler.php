@@ -5,10 +5,6 @@ namespace view;
 
 class CookieHandler {
 
-    public function __construct() {
-
-    }
-
     public function setCookie($name, $value, $expiresIn) {
         assert(is_string($name));
         assert(is_string($value));

@@ -4,7 +4,14 @@ namespace controller;
 
 class LoginController {
 
+    /**
+     * @var \model\LoginModel
+     */
     private $loginModel;
+
+    /**
+     * @var \view\LoginView
+     */
     private $loginView;
 
     public function __construct(\model\LoginModel $loginModel, \view\LoginView $loginView) {
@@ -27,6 +34,7 @@ class LoginController {
 
         return $this->loginModel->userIsLoggedIn();
     }
+
 
     private function login() {
         try {

@@ -11,12 +11,16 @@ class SessionHandler implements ILoginStateHandler, ITempMessageHandler {
         session_start();
     }
 
-    public function setMessage($value) {
-        $this->setData(self::$messageKey, $value);
+    public function setMessage($message) {
+        assert(is_string($message), "Argument \$message needs to be of type string");
+        $this->setData(self::$messageKey, $message);
     }
 
     public function getMessage() {
-        return $this->getAndUnset(self::$messageKey);
+        if ($this->exists(self::$messageKey)){
+            $this->getAndUnset(self::$messageKey);
+        }
+        return "";
     }
 
     public function setLoggedIn() {
