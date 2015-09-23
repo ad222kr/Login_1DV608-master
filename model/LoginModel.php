@@ -6,6 +6,7 @@ class LoginModel {
     private static $username = "Admin";
     private static $password = "Password";
 
+    private $isPersistentLogin;
     private $loginStateHandler;
 
     public function __construct(\common\ILoginStateHandler $loginStateHandler) {
@@ -32,7 +33,7 @@ class LoginModel {
             return $this->loginStateHandler->getLoggedIn();
     }
 
-    private function encryptPassword($password) {
-
+    public function encryptPassword($password) {
+        return hash("sha256", $password);
     }
 }

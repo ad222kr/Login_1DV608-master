@@ -17,8 +17,7 @@ class LoginController {
      */
     public function doLoginAction() {
 
-        if (!$this->loginModel->userIsLoggedIn() &&
-            ($this->loginView->didUserPressLogin() || $this->loginView->loginByCookies())) {
+        if (!$this->loginModel->userIsLoggedIn() && $this->loginView->didUserPressLogin()) {
             $this->login();
         } else if ($this->loginModel->userIsLoggedIn() && $this->loginView->didUserPressLogout()) {
             $this->logout();
@@ -32,6 +31,9 @@ class LoginController {
             $user = $this->loginView->getUser();
             if ($user != null) {
                 $this->loginModel->authenticateUser($user);
+                if ($this->loginView->userWantsToBeRemembered()) {
+                    $this->loginView->rememberUser();
+                }
                 $this->loginView->setLoginSucceeded();
             }
         }  catch (\WrongCredentialsException $e) {
@@ -40,13 +42,12 @@ class LoginController {
     }
 
     private function logout() {
-        $this->loginView->setLogoutSucceeded();
         $this->loginModel->logoutUser();
+        $this->loginView->forgetUser();
+        $this->loginView->setLogoutSucceeded();
     }
 
     public function getView() {
         return $this->loginView;
     }
-
-
 }

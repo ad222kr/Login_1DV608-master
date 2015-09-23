@@ -5,15 +5,11 @@ namespace view;
 
 class CookieHandler {
 
-    private static $cookieName = 'LoginView::CookieName';
-    private static $cookiePassword = 'LoginView::CookiePassword';
-
-
     public function __construct() {
 
     }
 
-    private function setCookie($name, $value, $expiresIn) {
+    public function setCookie($name, $value, $expiresIn) {
         assert(is_string($name));
         assert(is_string($value));
         assert(is_int($expiresIn));
@@ -22,26 +18,16 @@ class CookieHandler {
         setcookie($name, $value, strtotime("+$expiresIn days"));
     }
 
-    public function setRememberUserCookie($username,$password) {
-        $this->setCookie(self::$cookieName, $username, 30);
-        $this->setCookie(self::$cookiePassword, $this->getEncryptedPassword($password), 30);
-
+    public function getCookie($name) {
+        if (isset($_COOKIE[$name])) {
+            return $_COOKIE[$name];
+        }
     }
 
-    public function userNameCookieExists() {
-
+    public function deleteCookie($name) {
+        if (isset($_COOKIE[$name])) {
+            unset($_COOKIE[$name]);
+            setcookie($name, null, -1);
+        }
     }
-
-    public function passWordCookieExists() {
-
-    }
-
-    private function getEncryptedPassword($password) {
-        return hash("sha256", $password);
-    }
-
-
-
-
-
 }

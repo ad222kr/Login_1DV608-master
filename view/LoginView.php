@@ -40,29 +40,11 @@ class LoginView {
      * @return  void BUT writes to standard output and cookies!
      */
     public function response() {
-        $response = "";
-        $message = "";
 
-        if ($this->loginModel->userIsLoggedIn()) {
-            if ($this->didUserPressLogin()) {
-                if ($this->userWantsToBeRemembered()) {
-                    $this->cookieHandler->setRememberUserCookie($this->getRequestUserName(),
-                        $this->getRequestPassword());
-                }
-                $this->reloadPage();
-            } else {
-                $message = $this->getMessage();
-            }
-            $response .= $this->generateLogoutButtonHTML($message);
-        } else {
-            if ($this->didUserPressLogout()) {
-                $this->reloadPage();
-            } else {
-                $message = $this->getMessage();
-            }
-            $response .= $this->generateLoginFormHTML($message);
-        }
-        return $response;
+        $message = $this->getMessage();
+
+        return $this->loginModel->userIsLoggedIn() ? $this->generateLogoutButtonHTML($message) :
+            $this->generateLoginFormHTML($message);
     }
 
 	/**
@@ -106,24 +88,36 @@ class LoginView {
         ';
     }
 
+    public function rememberUser() {
+        $username = $this->getRequestUserName();
+        $password = $this->loginModel->encryptPassword($this->getRequestPassword());
+
+        $this->cookieHandler->setCookie(self::$cookieName, $username, 30);
+        $this->cookieHandler->setCookie(self::$cookiePassword, $password, 30);
+    }
+
+    public function forgetUser() {
+        $this->cookieHandler->deleteCookie(self::$cookieName);
+        $this->cookieHandler->deleteCookie(self::$cookiePassword);
+        var_dump($_COOKIE);
+    }
+
     public function setLoginSucceeded() {
         if ($this->userWantsToBeRemembered()) {
             $this->setMessage(self::$rememberWelcomeMessage, true);
         } else {
             $this->setMessage(self::$welcomeMessage, true);
         }
+        $this->reloadPage();
     }
 
     public function setLogoutSucceeded() {
         $this->setMessage(self::$goodbyeMessage, true);
+        $this->reloadPage();
     }
 
     public function setLoginFailed() {
         $this->setMessage(self::$wrongCredentialsMessage);
-    }
-
-    public function loginByCookies() {
-
     }
 
     /**
@@ -203,7 +197,7 @@ class LoginView {
         return isset($_POST[self::$keep]);
     }
 
-    private function reloadPage() {
+    public function reloadPage() {
         header("Location: " . $_SERVER['REQUEST_URI']);
         exit();
     }
