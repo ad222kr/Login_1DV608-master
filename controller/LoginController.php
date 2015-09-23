@@ -2,9 +2,6 @@
 
 namespace controller;
 
-
-use model\User;
-
 class LoginController {
 
     private $loginModel;

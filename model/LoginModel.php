@@ -1,22 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Alex
- * Date: 2015-09-16
- * Time: 15:45
- */
 
 namespace model;
-
 
 class LoginModel {
     private static $username = "Admin";
     private static $password = "Password";
 
-    private $sessionHandler;
+    private $loginStateHandler;
 
-    public function __construct(\common\SessionHandler $sessionHandler) {
-        $this->sessionHandler = $sessionHandler;
+    public function __construct(\common\ILoginStateHandler $loginStateHandler) {
+        $this->loginStateHandler = $loginStateHandler;
     }
 
     public function authenticateUser(User $user) {
@@ -27,19 +20,19 @@ class LoginModel {
     }
 
     private function loginUser() {
-        $this->sessionHandler->setLoggedIn();
+        $this->loginStateHandler->setLoggedIn();
     }
 
     public function logoutUser() {
-        $this->sessionHandler->unsetLoggedIn();
+        $this->loginStateHandler->setLoggedOut();
     }
 
     public function userIsLoggedIn() {
-        if ($this->sessionHandler != null)
-            return $this->sessionHandler->getLoggedIn();
+        if ($this->loginStateHandler != null)
+            return $this->loginStateHandler->getLoggedIn();
     }
 
     private function encryptPassword($password) {
-        
+
     }
 }

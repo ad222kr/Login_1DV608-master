@@ -2,7 +2,6 @@
 
 namespace view;
 
-
 class LoginView {
     private static $login = 'LoginView::Login';
     private static $logout = 'LoginView::Logout';
@@ -20,15 +19,15 @@ class LoginView {
     private static $passwordMissingMessage = "Password is missing";
     private static $wrongCredentialsMessage = "Wrong name or password";
 
-    private $sessionHandler;
+    private $tempMessageHandler;
     private $cookieHandler;
     private $loginModel;
     private $message = null;
 
 
-    public function __construct(\common\SessionHandler $sessionHandler, \common\CookieHandler $cookieHandler,
+    public function __construct(\common\ITempMessageHandler $tempMessageHandler, CookieHandler $cookieHandler,
                                 \model\LoginModel $loginModel) {
-        $this->sessionHandler = $sessionHandler;
+        $this->tempMessageHandler = $tempMessageHandler;
         $this->loginModel = $loginModel;
         $this->cookieHandler = $cookieHandler;
     }
@@ -149,7 +148,7 @@ class LoginView {
         if (strlen($this->message) > 0) {
             return $this->message;
         }
-        return $this->sessionHandler->getMessage();
+        return $this->tempMessageHandler->getMessage();
     }
 
     /**
@@ -157,9 +156,9 @@ class LoginView {
      * @param $message, String feedback to the user
      * @param $isSessionVariable, bool if the message needs to persist a redirect
      */
-    private function setMessage($message, $isSessionVariable = false) {
-        if ($isSessionVariable) {
-            $this->sessionHandler->setMessage($message);
+    private function setMessage($message, $shouldPersistRedirect = false) {
+        if ($shouldPersistRedirect) {
+            $this->tempMessageHandler->setMessage($message);
         } else {
             $this->message = $message;
         }

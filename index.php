@@ -1,14 +1,19 @@
 <?php
 
 //INCLUDE THE FILES NEEDED...
+require_once('common/ILoginStateHandler.php');
+require_once('common/ITempMessageHandler.php');
+
 require_once('view/LoginView.php');
 require_once('view/DateTimeView.php');
 require_once('view/LayoutView.php');
 
 require_once('model/User.php');
 require_once('model/LoginModel.php');
+
 require_once('common/SessionHandler.php');
-require_once('common/CookieHandler.php');
+require_once('view/CookieHandler.php');
+
 
 require_once('controller/LoginController.php');
 
@@ -24,11 +29,9 @@ date_default_timezone_set("Europe/Stockholm");
 
 
 
-
-
 //CREATE OBJECTS OF THE MODELS
-$sessionHandler = new \common\SessionHandler();
-$cookieHandler = new common\CookieHandler();
+$sessionHandler= new \common\SessionHandler();
+$cookieHandler = new \view\CookieHandler();
 $loginModel = new \model\LoginModel($sessionHandler);;
 
 //CREATE OBJECTS OF THE VIEWS

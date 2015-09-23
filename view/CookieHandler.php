@@ -1,12 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Alex
- * Date: 2015-09-22
- * Time: 16:16
- */
 
-namespace common;
+namespace view;
 
 
 class CookieHandler {

@@ -1,15 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Alex
- * Date: 2015-09-21
- * Time: 18:10
- */
 
 namespace common;
 
-
-class SessionHandler {
+class SessionHandler implements ILoginStateHandler, ITempMessageHandler {
 
     private static $isLoggedInName = "SessionHandler::IsLoggedIn";
     private static $messageKey = "SessionHandler::TempMessage";
@@ -37,7 +30,7 @@ class SessionHandler {
         return false;
     }
 
-    public function unsetLoggedIn() {
+    public function setLoggedOut() {
         $this->unsetData(self::$isLoggedInName);
     }
 
