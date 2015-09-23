@@ -17,7 +17,9 @@ class LoginController {
      */
     public function doLoginAction() {
 
-        if (!$this->loginModel->userIsLoggedIn() && $this->loginView->didUserPressLogin()) {
+
+        if (!$this->loginModel->userIsLoggedIn() &&
+            ($this->loginView->didUserPressLogin() || $this->loginView->userCredentialCookieExists())) {
             $this->login();
         } else if ($this->loginModel->userIsLoggedIn() && $this->loginView->didUserPressLogout()) {
             $this->logout();
@@ -30,7 +32,7 @@ class LoginController {
         try {
             $user = $this->loginView->getUser();
             if ($user != null) {
-                $this->loginModel->authenticateUser($user);
+                $this->loginModel->authenticateUser($user, $this->loginView->userCredentialCookieExists());
                 if ($this->loginView->userWantsToBeRemembered()) {
                     $this->loginView->rememberUser();
                 }

@@ -27,8 +27,6 @@ error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 date_default_timezone_set("Europe/Stockholm");
 
-
-
 //CREATE OBJECTS OF THE MODELS
 $sessionHandler= new \common\SessionHandler();
 $cookieHandler = new \view\CookieHandler();

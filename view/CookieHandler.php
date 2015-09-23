@@ -22,6 +22,7 @@ class CookieHandler {
         if (isset($_COOKIE[$name])) {
             return $_COOKIE[$name];
         }
+        return null;
     }
 
     public function deleteCookie($name) {

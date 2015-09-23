@@ -6,15 +6,15 @@ class LoginModel {
     private static $username = "Admin";
     private static $password = "Password";
 
-    private $isPersistentLogin;
     private $loginStateHandler;
 
     public function __construct(\common\ILoginStateHandler $loginStateHandler) {
         $this->loginStateHandler = $loginStateHandler;
     }
 
-    public function authenticateUser(User $user) {
-        if ($user->getUsername() !== self::$username || $user->getPassword() !== self::$password)
+    public function authenticateUser(User $user, $userIsRemembered) {
+        $password = $userIsRemembered ? $this->encryptPassword(self::$password) : self::$password;
+        if ($user->getUsername() !== self::$username || $user->getPassword() !== $password)
             throw new \WrongCredentialsException("Wrong name or password");
 
         $this->loginUser();
