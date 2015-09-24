@@ -1,25 +1,25 @@
 <?php
 
 //INCLUDE THE FILES NEEDED...
-require_once('common/ILoginStateHandler.php');
-require_once('common/ITempMessageHandler.php');
+require_once('src/common/ILoginStateHandler.php');
+require_once('src/common/ITempMessageHandler.php');
 
-require_once('view/LoginView.php');
-require_once('view/DateTimeView.php');
-require_once('view/LayoutView.php');
+require_once('src/view/LoginView.php');
+require_once('src/view/DateTimeView.php');
+require_once('src/view/LayoutView.php');
 
-require_once('model/User.php');
-require_once('model/LoginModel.php');
+require_once('src/model/User.php');
+require_once('src/model/LoginModel.php');
 
-require_once('common/SessionHandler.php');
-require_once('view/CookieHandler.php');
+require_once('src/common/SessionHandler.php');
+require_once('src/view/CookieHandler.php');
 
+require_once('src/controller/LoginController.php');
+require_once('src/model/DAL/LoginModelDAL.php');
 
-require_once('controller/LoginController.php');
-
-require_once('common/PasswordMissingException.php');
-require_once('common/UsernameMissingException.php');
-require_once('common/WrongCredentialsException.php');
+require_once('src/common/PasswordMissingException.php');
+require_once('src/common/UsernameMissingException.php');
+require_once('src/common/WrongCredentialsException.php');
 
 
 //MAKE SURE ERRORS ARE SHOWN... MIGHT WANT TO TURN THIS OFF ON A PUBLIC SERVER
@@ -30,7 +30,8 @@ date_default_timezone_set("Europe/Stockholm");
 //CREATE OBJECTS OF THE MODELS
 $sessionHandler= new \common\SessionHandler();
 $cookieHandler = new \view\CookieHandler();
-$loginModel = new \model\LoginModel($sessionHandler);;
+$loginModelDAL = new \model\dal\LoginModelDAL();
+$loginModel = new \model\LoginModel($sessionHandler, $loginModelDAL);
 
 //CREATE OBJECTS OF THE VIEWS
 $dateTimeView = new view\DateTimeView();

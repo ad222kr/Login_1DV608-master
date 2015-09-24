@@ -67,8 +67,8 @@ class LoginView {
 
     public function rememberUser() {
         $username = $this->getRequestUserName();
-        $password = $this->loginModel->encryptPassword($this->getRequestPassword());
-
+        $password = $this->loginModel->generateToken(); // yeah, it's token going to $password var..
+                                                        // will refactor/rename if time allows
         $this->cookieHandler->setCookie(self::$cookieName, $username, 30);
         $this->cookieHandler->setCookie(self::$cookiePassword, $password, 30);
     }
@@ -113,6 +113,7 @@ class LoginView {
                 $username = $this->getRequestUserName();
                 $password = $this->getRequestPassword();
             }
+
 
             return new \model\User($username, $password);
 

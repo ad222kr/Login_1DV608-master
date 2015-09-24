@@ -18,7 +18,7 @@ class SessionHandler implements ILoginStateHandler, ITempMessageHandler {
 
     public function getMessage() {
         if ($this->exists(self::$messageKey)){
-            $this->getAndUnset(self::$messageKey);
+            return $this->getAndUnset(self::$messageKey);
         }
         return "";
     }
