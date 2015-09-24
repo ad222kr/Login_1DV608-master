@@ -4,7 +4,6 @@ namespace model\dal;
 
 class LoginModelDAL {
 
-
     private static $pathToHashedPassword = "data/hashedpw";
     private static $pathToCookiePassword = "data/cookiepw";
     private static $username = "Admin"; // no need to keep this in a file tbh
@@ -17,11 +16,12 @@ class LoginModelDAL {
         return self::$username;
     }
 
-    public function saveToken($cookiePassword) {
+    public function saveCookiePassword($cookiePassword) {
+        //
         file_put_contents(self::$pathToCookiePassword, $cookiePassword);
     }
 
-    public function getToken() {
+    public function getCookiePassword() {
         return file_get_contents(self::$pathToCookiePassword);
     }
 

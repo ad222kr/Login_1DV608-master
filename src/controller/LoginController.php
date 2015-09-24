@@ -24,7 +24,6 @@ class LoginController {
      */
     public function doLoginAction() {
 
-
         if (!$this->loginModel->userIsLoggedIn() &&
             ($this->loginView->didUserPressLogin() || $this->loginView->userCredentialCookieExists())) {
             $this->login($this->loginView->userCredentialCookieExists());
@@ -35,7 +34,6 @@ class LoginController {
         return $this->loginModel->userIsLoggedIn();
     }
 
-
     private function login($isCookieLogin) {
         try {
             $user = $this->loginView->getUser();
@@ -43,10 +41,10 @@ class LoginController {
             if ($isCookieLogin) {
                 $this->loginModel->authenticateUserWithCookies($user);
             } else {
-                $this->loginModel->authenticate($user);
-                if ($this->loginView->userWantsToBeRemembered()) {
+                $this->loginModel->authenticateWithPostCredentials($user);
+                if ($this->loginView->userWantsToBeRemembered())
                     $this->loginView->rememberUser();
-                }
+
             }
             $this->loginView->setLoginSucceeded();
         }  catch (\WrongCredentialsException $e) {

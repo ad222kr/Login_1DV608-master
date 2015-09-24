@@ -60,16 +60,15 @@ class LoginView {
      */
     public function response() {
 
-        if ($this->loginModel->userIsLoggedIn()) {
+        if ($this->loginModel->userIsLoggedIn())
             return $this->generateLogoutButtonHTML($this->getMessage());
-        }
+
         return $this->generateLoginFormHTML($this->getMessage());
     }
 
     public function rememberUser() {
         $username = $this->getRequestUserName();
-        $password = $this->loginModel->generateToken(); // yeah, it's token going to $password var..
-                                                        // will refactor/rename if time allows
+        $password = $this->loginModel->generateCookiePassword();
         $this->cookieHandler->setCookie(self::$cookieName, $username, 30);
         $this->cookieHandler->setCookie(self::$cookiePassword, $password, 30);
     }
@@ -142,11 +141,12 @@ class LoginView {
     }
 
     /**
-     * Sets a message to the $_SESSION-array if needed, else to the member variable
      * @param $message, String feedback to the user
      * @param $shouldPersistRedirect, bool if the message needs to persist a redirect
      */
     private function setMessage($message, $shouldPersistRedirect = false) {
+        assert(is_string($message));
+        assert(is_bool($shouldPersistRedirect));
         if ($shouldPersistRedirect) {
             $this->tempMessageHandler->setMessage($message);
         } else {
@@ -194,8 +194,9 @@ class LoginView {
     }
 
     private function sanitizeInput($stringToSanitize) {
-        $ret = htmlspecialchars($stringToSanitize, ENT_COMPAT,'ISO-8859-1');
-        return $ret;
+        assert(is_string($stringToSanitize));
+        $sanitized = htmlspecialchars($stringToSanitize, ENT_COMPAT,'ISO-8859-1');
+        return $sanitized;
     }
 
     /**

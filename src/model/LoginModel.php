@@ -14,14 +14,11 @@ class LoginModel {
         $this->DAL = $DAL;
     }
 
-    public function authenticate(User $user) {
-        // Currently encrypts the static variable self::\$password with SHA256 when
-        // User logs in via cookies. Will fix another way if I have time but this will
-        // have to do for the time being.
+    public function authenticateWithPostCredentials(User $user) {
         $expectedUsername = $this->DAL->getUsername();
         $expectedPassword = $this->DAL->getHashedPassword();
         if (!$this->usernameIsVerified($user->getUsername(), $expectedUsername) ||
-            !$this->passwordIsVerified($user->getPassword(), $expectedPassword))
+            !$this->hashedPasswordIsVerified($user->getPassword(), $expectedPassword))
             throw new \WrongCredentialsException("Wrong name or password");
 
         $this->loginUser();
@@ -29,9 +26,9 @@ class LoginModel {
 
     public function authenticateUserWithCookies(User $user) {
         $expectedUsername = $this->DAL->getUsername();
-        $expectedToken = $this->DAL->getToken();
+        $expectedPassword = $this->DAL->getCookiePassword();
         if(!$this->usernameIsVerified($user->getUsername(), $expectedUsername) ||
-           !$this->tokenIsVerified($user->getPassword(), $expectedToken)) {
+           !$this->cookiePasswordIsVerified($user->getPassword(), $expectedPassword)) {
             throw new \WrongCredentialsException("Wrong cookie information");
         }
         $this->loginUser();
@@ -56,27 +53,23 @@ class LoginModel {
         return $enteredUsername === $dbUsername;
     }
 
-    private function passwordIsVerified($enteredPassword, $hashedPassword) {
+    private function hashedPasswordIsVerified($enteredPassword, $hashedPassword) {
         return password_verify($enteredPassword, $hashedPassword);
     }
 
-    private function tokenIsVerified($tokenInCookie, $storedToken) {
+    private function cookiePasswordIsVerified($tokenInCookie, $storedToken) {
         return $tokenInCookie === $storedToken;
     }
 
-    public function getHashedPassword($toBeHashed) {
-        return password_hash($toBeHashed, PASSWORD_BCRYPT);
-    }
-
-    public function generateToken() {
+    public function generateCookiePassword() {
         // https://paragonie.com/blog/2015/04/secure-authentication-php-with-long-term-persistence#title.2
         // not good according to this article but will have to suffice for this assignment
-        $token = '';
+        $password = '';
         for ($i = 0; $i < 30; $i++) {
-            $token .= chr(mt_rand(0, 255));
+            $password .= chr(mt_rand(0, 255));
         }
-        $token = bin2hex($token);
-        $this->DAL->saveToken($token);
-        return $token;
+        $password = bin2hex($password);
+        $this->DAL->saveCookiePassword($password);
+        return $password;
     }
 }

@@ -2,6 +2,14 @@
 
 namespace common;
 
+/**
+ * Lets other classes access the $_SESSION superglobal array
+ * via interfaces, to prevent access to the same index
+ *
+ * Class SessionHandler
+ * @package common
+ */
+
 class SessionHandler implements ILoginStateHandler, ITempMessageHandler {
 
     private static $isLoggedInName = "SessionHandler::IsLoggedIn";
@@ -17,9 +25,9 @@ class SessionHandler implements ILoginStateHandler, ITempMessageHandler {
     }
 
     public function getMessage() {
-        if ($this->exists(self::$messageKey)){
+        if ($this->exists(self::$messageKey))
             return $this->getAndUnset(self::$messageKey);
-        }
+
         return "";
     }
 
@@ -28,9 +36,9 @@ class SessionHandler implements ILoginStateHandler, ITempMessageHandler {
     }
 
     public function getLoggedIn() {
-        if ($this->exists(self::$isLoggedInName)) {
+        if ($this->exists(self::$isLoggedInName))
             return $this->getData(self::$isLoggedInName);
-        }
+
         return false;
     }
 
@@ -43,16 +51,16 @@ class SessionHandler implements ILoginStateHandler, ITempMessageHandler {
     }
 
     private function getData($key) {
-        if ($this->exists($key)) {
+        if ($this->exists($key))
             return $_SESSION[$key];
-        }
+
         return null;
     }
 
     private function unsetData($key) {
-        if ($this->exists($key)) {
+        if ($this->exists($key))
             unset($_SESSION[$key]);
-        }
+
     }
 
     private function getAndUnset($key) {
