@@ -10,8 +10,8 @@ class CookieHandler {
         assert(is_string($value));
         assert(is_int($expiresIn));
 
-        // http://php.net/manual/en/function.setcookie.php#110193
-        setcookie($name, $value, strtotime("+$expiresIn days"));
+
+        setcookie($name, $value, time() + 60);
     }
 
     public function getCookie($name) {
