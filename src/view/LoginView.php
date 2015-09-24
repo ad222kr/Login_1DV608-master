@@ -20,6 +20,7 @@ class LoginView {
     private static $nameMissingMessage = "Username is missing";
     private static $passwordMissingMessage = "Password is missing";
     private static $wrongCredentialsMessage = "Wrong name or password";
+    private static $wrongCookieInfoMessage = "Wrong information in cookies";
     private static $welcomeWithCookieMessage = "Welcome back with cookie";
 
     /**
@@ -94,8 +95,12 @@ class LoginView {
         $this->reloadPage();
     }
 
-    public function setLoginFailed() {
-        $this->setMessage(self::$wrongCredentialsMessage);
+    public function setLoginFailed($isCookieLogin) {
+        if ($isCookieLogin) {
+            $this->setMessage(self::$wrongCookieInfoMessage);
+        } else {
+            $this->setMessage(self::$wrongCredentialsMessage);
+        }
     }
 
     /**

@@ -50,7 +50,7 @@ class LoginController {
             }
             $this->loginView->setLoginSucceeded();
         }  catch (\WrongCredentialsException $e) {
-            $this->loginView->setLoginFailed();
+            $this->loginView->setLoginFailed($isCookieLogin);
         }
     }
 
