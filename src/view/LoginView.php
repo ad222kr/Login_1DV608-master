@@ -79,6 +79,7 @@ class LoginView {
     }
 
     public function setLoginSucceeded() {
+
         if ($this->userWantsToBeRemembered()) {
             $this->setMessage(self::$rememberWelcomeMessage, true);
         } elseif ($this->userCredentialCookieExists()) {

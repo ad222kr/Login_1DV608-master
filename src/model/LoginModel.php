@@ -65,11 +65,13 @@ class LoginModel {
         // https://paragonie.com/blog/2015/04/secure-authentication-php-with-long-term-persistence#title.2
         // not good according to this article but will have to suffice for this assignment
         $password = '';
+
         for ($i = 0; $i < 30; $i++) {
             $password .= chr(mt_rand(0, 255));
         }
         $password = bin2hex($password);
         $this->DAL->saveCookiePassword($password);
+
         return $password;
     }
 }
