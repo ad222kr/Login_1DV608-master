@@ -42,9 +42,6 @@ class LoginController {
                 $this->loginModel->authenticateUserWithCookies($user);
             } else {
                 $this->loginModel->authenticateWithPostCredentials($user);
-                if ($this->loginView->userWantsToBeRemembered())
-                    $this->loginView->rememberUser();
-
             }
             $this->loginView->setLoginSucceeded();
         }  catch (\WrongCredentialsException $e) {

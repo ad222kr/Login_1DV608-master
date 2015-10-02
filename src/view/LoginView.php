@@ -60,8 +60,9 @@ class LoginView {
      */
     public function response() {
 
-        if ($this->loginModel->userIsLoggedIn())
+        if ($this->loginModel->userIsLoggedIn()){
             return $this->generateLogoutButtonHTML($this->getMessage());
+        }
 
         return $this->generateLoginFormHTML($this->getMessage());
     }
@@ -81,6 +82,7 @@ class LoginView {
     public function setLoginSucceeded() {
 
         if ($this->userWantsToBeRemembered()) {
+            $this->rememberUser();
             $this->setMessage(self::$rememberWelcomeMessage, true);
         } elseif ($this->userCredentialCookieExists()) {
             $this->setMessage(self::$welcomeWithCookieMessage, true);
