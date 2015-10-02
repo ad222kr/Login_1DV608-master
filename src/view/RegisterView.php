@@ -11,15 +11,26 @@ namespace view;
 
 class RegisterView {
 
+	private static $registerName = "?register";
+	private static $messageID = "RegisterView::Message";
+	private static $usernameID = "RegisterView::UerName";
+	private static $passwordID = "RegisterView::Password";
+	private static $passwordRepeatID = "RegisterView::PasswordRepeat";
+
     private $loginStateHandler; //not needed here probably?
     private $registerModel;
 
     public function __construct(\common\ILoginStateHandler $loginStateHandler, \model\RegisterModel $registerModel) {
         $this->loginStateHandler = $loginStateHandler;
         $this->registerModel = $registerModel;
+
+
     }
 
+
+
     public function response() {
+		//TODO: fix proper form-string
         return "<form action='?register' method='post' enctype='multipart/form-data'>
 				<fieldset>
 				<legend>Register a new user - Write username and password</legend>
