@@ -9,7 +9,21 @@
 namespace controller;
 
 
-class RegisterController
-{
+class RegisterController {
 
+    private $registerModel;
+    private $registerView;
+
+    public function __construct(\model\RegisterModel $registerModel, \view\RegisterView $registerView) {
+        $this->registerModel = $registerModel;
+        $this->registerView = $registerView;
+    }
+
+    public function doRegisterAction() {
+        // TODO: implement
+    }
+
+    public function getView() {
+        return $this->registerView;
+    }
 }

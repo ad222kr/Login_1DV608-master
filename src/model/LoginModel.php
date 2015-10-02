@@ -9,7 +9,7 @@ class LoginModel {
     private $loginStateHandler;
     private $DAL;
 
-    public function __construct(\common\ILoginStateHandler $loginStateHandler, \model\dal\LoginModelDAL $DAL) {
+    public function __construct(\common\ILoginStateHandler $loginStateHandler, \model\dal\UserDAL $DAL) {
         $this->loginStateHandler = $loginStateHandler;
         $this->DAL = $DAL;
     }

@@ -13,6 +13,10 @@ class NagivationView {
 
     private static $registerName = "register";
 
+    public function userWantsToRegister() {
+        return $this->registerIsSet();
+    }
+
     public function render($isLoggedIn) {
         if (!$isLoggedIn) {
             if (!$this->registerIsSet())

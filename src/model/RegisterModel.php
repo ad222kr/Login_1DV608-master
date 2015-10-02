@@ -6,7 +6,7 @@
  * Time: 18:37
  */
 
-namespace controller;
+namespace model;
 
 
 class RegisterModel

@@ -1,6 +1,6 @@
 <?php
 
-require_once('src\controller\ApplicationController.php');
+require_once('src\controller\MasterController.php');
 
 //MAKE SURE ERRORS ARE SHOWN... MIGHT WANT TO TURN THIS OFF ON A PUBLIC SERVER
 error_reporting(E_ALL);
@@ -9,6 +9,6 @@ date_default_timezone_set("Europe/Stockholm");
 
 
 
-$app = new \controller\ApplicationController();
+$app = new \controller\MasterController();
 $app->run();
 
