@@ -15,10 +15,8 @@ class LoginModel {
     }
 
     public function authenticateWithPostCredentials(User $user) {
-        $expectedUsername = $this->DAL->getUsername();
-        $expectedPassword = $this->DAL->getHashedPassword();
-        if (!$this->usernameIsVerified($user->getUsername(), $expectedUsername) ||
-            !$this->hashedPasswordIsVerified($user->getPassword(), $expectedPassword))
+
+        if ($this->authenticatePostUser($user) === FALSE)
             throw new \WrongCredentialsException("Wrong name or password");
 
         $this->loginUser();
@@ -26,12 +24,26 @@ class LoginModel {
 
     public function authenticateUserWithCookies(User $user) {
         $expectedUsername = $this->DAL->getUsername();
-        $expectedPassword = $this->DAL->getCookiePassword();
+        $expectedPassword = $this->DAL->getUserCookies();
         if(!$this->usernameIsVerified($user->getUsername(), $expectedUsername) ||
            !$this->cookiePasswordIsVerified($user->getPassword(), $expectedPassword)) {
             throw new \WrongCredentialsException("Wrong cookie information");
         }
         $this->loginUser();
+    }
+
+    private function authenticatePostUser(User $user) {
+        $users = $this->DAL->getUsersHashed();
+
+        var_dump($users);
+
+        foreach ($users as $registeredUser) {
+            if ($user->getUsername() === $registeredUser->getUsername() &&
+                $this->hashedPasswordIsVerified($user->getPassword(), $registeredUser->getPassword())){
+                return true;
+            }
+        }
+        return false;
     }
 
     private function loginUser() {
@@ -57,8 +69,8 @@ class LoginModel {
         return password_verify($enteredPassword, $hashedPassword);
     }
 
-    private function cookiePasswordIsVerified($tokenInCookie, $storedToken) {
-        return $tokenInCookie === $storedToken;
+    private function cookiePasswordIsVerified($cookiePassword, $storedCookiePassword) {
+        return $cookiePassword === $storedCookiePassword;
     }
 
     public function generateCookiePassword() {
