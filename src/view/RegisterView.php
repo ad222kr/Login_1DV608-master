@@ -21,33 +21,32 @@ class RegisterView {
     private $registerModel;
 
     public function __construct(\common\ILoginStateHandler $loginStateHandler, \model\RegisterModel $registerModel) {
-        $this->loginStateHandler = $loginStateHandler;
+        $this->loginStateHandler = $loginStateHandler; // think i need this to add username to field after registration
         $this->registerModel = $registerModel;
-
-
     }
 
 
 
     public function response() {
 		//TODO: fix proper form-string
-        return "<form action='?register' method='post' enctype='multipart/form-data'>
-				<fieldset>
-				<legend>Register a new user - Write username and password</legend>
-					<p id='RegisterView::Message'></p>
-					<label for='RegisterView::UserName' >Username :</label>
-					<input type='text' size='20' name='RegisterView::UserName' id='RegisterView::UserName' value='' />
-					<br/>
-					<label for='RegisterView::Password' >Password  :</label>
-					<input type='password' size='20' name='RegisterView::Password' id='RegisterView::Password' value='' />
-					<br/>
-					<label for='RegisterView::PasswordRepeat' >Repeat password  :</label>
-					<input type='password' size='20' name='RegisterView::PasswordRepeat' id='RegisterView::PasswordRepeat' value='' />
-					<br/>
-					<input id='submit' type='submit' name='DoRegistration'  value='Register' />
-					<br/>
-				</fieldset>
-			</form>";
+
+		return '<form action="' . self::$registerName . '" method="post" enctype="multipart/formdata">
+ 				<fieldset>
+ 				<legend>Register a new user - Write username and password</legend>
+ 				<p id="' . self::$messageID . '"></p>
+ 				<label for="' . self::$usernameID .'" >Username :</label>
+ 				<input type="text" size="20" name="' . self::$usernameID .'" id="' . self::$usernameID .'" value="" />
+ 				<br/>
+ 				<label for="' . self::$passwordID .'" >Password :</label>
+ 				<input type="password" size="20" name="' . self::$passwordID .'" id="' . self::$passwordID.'" value="" />
+				<br/>
+ 				<label for="' . self::$passwordRepeatID .'" >Repeat password :</label>
+ 				<input type="password" size="20" name="' . self::$passwordRepeatID .'" id="' . self::$passwordRepeatID.'" value="" />
+ 				<br/>
+ 				<input id="submit" type="submit" name="DoRegistration" value="Register" />
+ 				<br/>
+ 				</fieldset>
+ 				</form>';
     }
 
 }

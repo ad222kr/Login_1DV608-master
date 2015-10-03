@@ -73,4 +73,8 @@ class MasterController {
 
         $layoutView->render($isLoggedIn, $html, $dateTimeView, $navigationView);
     }
+
+    private function registerUser() {
+
+    }
 }
