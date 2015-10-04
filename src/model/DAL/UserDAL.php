@@ -43,7 +43,7 @@ class UserDAL {
     }
 
     public function saveCookiePassword($username, $cookiePassword) {
-        file_put_contents(self::$pathToCookiePassword . "/" . $username, $cookiePassword);
+        file_put_contents(self::$pathToCookieCredentials . "/" . $username, $cookiePassword);
     }
 
     public function getUserCookies() {

@@ -16,35 +16,32 @@ class LoginModel {
 
     public function authenticateWithPostCredentials(User $user) {
 
-        if ($this->authenticatePostUser($user) === FALSE)
-            throw new \WrongCredentialsException("Wrong name or password");
+        $users = $this->DAL->getUsersHashed();
 
+
+        foreach ($users as $registeredUser) {
+            if (!$user->getUsername() === $registeredUser->getUsername() &&
+               password_verify($user->getPassword(), $registeredUser->getPassword())){
+                throw new \WrongCredentialsException("Wrong credentials");
+            }
+        }
         $this->loginUser();
     }
 
     public function authenticateUserWithCookies(User $user) {
-        $expectedUsername = $this->DAL->getUsername();
-        $expectedPassword = $this->DAL->getUserCookies();
-        if(!$this->usernameIsVerified($user->getUsername(), $expectedUsername) ||
-           !$this->cookiePasswordIsVerified($user->getPassword(), $expectedPassword)) {
-            throw new \WrongCredentialsException("Wrong cookie information");
+
+        $users = $this->DAL->getUserCookies();
+
+
+        foreach ($users as  $registeredUser) {
+            if (!$user->getUsername() === $registeredUser->getUsername() &&
+                $user->getPassword() === $registeredUser->getPassword()){
+                throw new \WrongCredentialsException("Wrong credentials");
+            }
         }
         $this->loginUser();
     }
 
-    private function authenticatePostUser(User $user) {
-        $users = $this->DAL->getUsersHashed();
-
-        var_dump($users);
-
-        foreach ($users as $registeredUser) {
-            if ($user->getUsername() === $registeredUser->getUsername() &&
-                $this->hashedPasswordIsVerified($user->getPassword(), $registeredUser->getPassword())){
-                return true;
-            }
-        }
-        return false;
-    }
 
     private function loginUser() {
         $this->loginStateHandler->setLoggedIn();
@@ -59,18 +56,6 @@ class LoginModel {
             return $this->loginStateHandler->getLoggedIn();
         }
         return false;
-    }
-
-    private function usernameIsVerified($enteredUsername, $dbUsername) {
-        return $enteredUsername === $dbUsername;
-    }
-
-    private function hashedPasswordIsVerified($enteredPassword, $hashedPassword) {
-        return password_verify($enteredPassword, $hashedPassword);
-    }
-
-    private function cookiePasswordIsVerified($cookiePassword, $storedCookiePassword) {
-        return $cookiePassword === $storedCookiePassword;
     }
 
     public function generateCookiePassword() {

@@ -9,8 +9,9 @@ require_once('src/common/WrongCredentialsException.php');
 class User {
     private $username;
     private $password;
+    private $isCookiePassword;
 
-    public function __construct($username, $password) {
+    public function __construct($username, $password, $isCookiePassword = false) {
         assert(is_string($username), "Username needs to be of type string");
         assert(is_string($password), "Password needs to be of type string");
 
@@ -29,5 +30,9 @@ class User {
 
     public function getPassword() {
         return $this->password;
+    }
+
+    public function isCookiePassword() {
+        return $this->isCookiePassword;
     }
 }

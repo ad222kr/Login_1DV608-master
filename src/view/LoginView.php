@@ -97,8 +97,8 @@ class LoginView {
         $this->reloadPage();
     }
 
-    public function setLoginFailed($isCookieLogin) {
-        if ($isCookieLogin) {
+    public function setLoginFailed() {
+        if ($this->userCredentialCookieExists()) {
             $this->setMessage(self::$wrongCookieInfoMessage);
         } else {
             $this->setMessage(self::$wrongCredentialsMessage);
@@ -111,8 +111,7 @@ class LoginView {
     public function getUser() {
         try {
             $user = null;
-            $username = "";
-            $password = "";
+
             if ($this->userCredentialCookieExists()) {
                 $username = $this->cookieHandler->getCookie(self::$cookieName);
                 $password = $this->cookieHandler->getCookie(self::$cookiePassword);
@@ -120,7 +119,6 @@ class LoginView {
                 $username = $this->getRequestUserName();
                 $password = $this->getRequestPassword();
             }
-
 
             return new \model\User($username, $password);
 
@@ -157,7 +155,7 @@ class LoginView {
         }
     }
 
-    public function userCredentialCookieExists() {
+    private function userCredentialCookieExists() {
         if ($this->cookieHandler->getCookie(self::$cookieName) != null &&
             $this->cookieHandler->getCookie(self::$cookiePassword) != null) {
             return true;
@@ -179,12 +177,12 @@ class LoginView {
         return "";
     }
 
-    public function didUserPressLogout() {
+    public function userWantsToLogout() {
         return isset($_POST[self::$logout]);
     }
 
-    public function didUserPressLogin() {
-        return isset($_POST[self::$login]);
+    public function userWantsToLogin() {
+        return isset($_POST[self::$login]) || $this->userCredentialCookieExists();
     }
 
     public function userWantsToBeRemembered() {

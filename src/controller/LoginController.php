@@ -25,27 +25,27 @@ class LoginController {
     public function doLoginAction() {
 
         if (!$this->loginModel->userIsLoggedIn() &&
-            ($this->loginView->didUserPressLogin() || $this->loginView->userCredentialCookieExists())) {
-            $this->login($this->loginView->userCredentialCookieExists());
-        } else if ($this->loginModel->userIsLoggedIn() && $this->loginView->didUserPressLogout()) {
+            ($this->loginView->userWantsToLogin())) {
+            $this->login();
+        } else if ($this->loginModel->userIsLoggedIn() && $this->loginView->userWantsToLogout()) {
             $this->logout();
         }
 
         return $this->loginModel->userIsLoggedIn();
     }
 
-    private function login($isCookieLogin) {
+    private function login() {
         try {
             $user = $this->loginView->getUser();
             if ($user == null) return;
-            if ($isCookieLogin) {
+            if ($user->isCookiePassword()) {
                 $this->loginModel->authenticateUserWithCookies($user);
             } else {
                 $this->loginModel->authenticateWithPostCredentials($user);
             }
             $this->loginView->setLoginSucceeded();
         }  catch (\WrongCredentialsException $e) {
-            $this->loginView->setLoginFailed($isCookieLogin);
+            $this->loginView->setLoginFailed();
         }
     }
 
