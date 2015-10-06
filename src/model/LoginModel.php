@@ -22,16 +22,8 @@ class LoginModel {
         $registered = $this->userDAL->getUserByName($toLogin->getUsername());
         $tempPassword = $this->tempDAL->getTempPassword($toLogin->getUsername());
 
-        var_dump($tempPassword);
-
-
-
-
         $loginByPostCredentials = password_verify($toLogin->getPassword(), $registered->getPassword());
         $loginByCookies = $tempPassword != "" && $tempPassword === $toLogin->getCookiePassword();
-
-        var_dump($loginByCookies);
-        var_dump($loginByPostCredentials);
 
         if (!$loginByPostCredentials && !$loginByCookies)
             throw new \WrongCredentialsException("Wrong credentials");
