@@ -2,11 +2,8 @@
 
 namespace model;
 
-use common\UserNotRegisteredException;
 
-require_once('src/common/PasswordMissingException.php');
-require_once('src/common/UsernameMissingException.php');
-require_once('src/common/WrongCredentialsException.php');
+
 
 class User {
     private $username;

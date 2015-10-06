@@ -2,8 +2,6 @@
 
 namespace model\dal;
 
-require_once("src/common/UserNotRegisteredException.php");
-
 class UserDAL {
 
     private static $pathToHashedCredentials = "data/user-hashed-password";
