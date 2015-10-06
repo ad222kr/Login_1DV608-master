@@ -35,6 +35,7 @@ date_default_timezone_set("Europe/Stockholm");
 
 
 //TODO: MOVE BACK TO MASTER CONTROLLER
+//TODO: check why testcase 1.8 doesnt work now?? in automated tests.....
 
 $sessionHandler= new \common\SessionHandler();
 $cookieHandler = new \view\CookieHandler();
