@@ -1,6 +1,6 @@
 <?php
 
-require_once('src\controller\MasterController.php');
+require_once('src/controller\MasterController.php');
 require_once('src/common/ILoginStateHandler.php');
 require_once('src/common/ITempMessageHandler.php');
 
