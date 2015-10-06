@@ -25,6 +25,7 @@ require_once('src/model/DAL/TempCredentialsDAL.php');
 require_once('src/common/PasswordMissingException.php');
 require_once('src/common/UsernameMissingException.php');
 require_once('src/common/WrongCredentialsException.php');
+require_once('src/common/UserNotRegisteredException.php');
 
 //MAKE SURE ERRORS ARE SHOWN... MIGHT WANT TO TURN THIS OFF ON A PUBLIC SERVER
 error_reporting(E_ALL);
