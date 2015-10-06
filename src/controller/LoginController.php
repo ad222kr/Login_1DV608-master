@@ -2,8 +2,6 @@
 
 namespace controller;
 
-use common\UserNotRegisteredException;
-
 class LoginController {
 
     /**
