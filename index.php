@@ -1,6 +1,6 @@
 <?php
 
-require_once('src/controller\MasterController.php');
+require_once('src/controller/MasterController.php');
 require_once('src/common/ILoginStateHandler.php');
 require_once('src/common/ITempMessageHandler.php');
 
@@ -20,6 +20,7 @@ require_once('src/view/CookieHandler.php');
 require_once('src/controller/LoginController.php');
 require_once('src/controller/RegisterController.php');
 require_once('src/model/DAL/UserDAL.php');
+
 require_once('src/model/DAL/TempCredentialsDAL.php');
 
 require_once('src/common/PasswordMissingException.php');
