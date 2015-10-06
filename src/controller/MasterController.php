@@ -27,6 +27,8 @@ require_once('src/view/CookieHandler.php');
 require_once('src/controller/LoginController.php');
 require_once('src/controller/RegisterController.php');
 require_once('src/model/DAL/UserDAL.php');
+require_once('src/model/DAL/TempCredentialsDAL.php');
+
 
 
 

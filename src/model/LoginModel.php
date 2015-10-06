@@ -2,49 +2,46 @@
 
 namespace model;
 
+use model\dal\TempCredentialsDAL;
+
 class LoginModel {
     /**
      * @var \common\ILoginStateHandler
      */
     private $loginStateHandler;
-    private $DAL;
+    private $userDAL;
+    private $tempDAL;
 
-    public function __construct(\common\ILoginStateHandler $loginStateHandler, \model\dal\UserDAL $DAL) {
+    public function __construct(\common\ILoginStateHandler $loginStateHandler, \model\dal\UserDAL $userDAL) {
         $this->loginStateHandler = $loginStateHandler;
-        $this->DAL = $DAL;
+        $this->userDAL = $userDAL;
+        $this->tempDAL = new TempCredentialsDAL();
     }
 
-    public function authenticateWithPostCredentials(User $user) {
+    public function tryLoginUser(User $toLogin) {
+        $registered = $this->userDAL->getUserByName($toLogin->getUsername());
+        $tempPassword = $this->tempDAL->getTempPassword($toLogin->getUsername());
 
-        $users = $this->DAL->getUsersHashed();
+        var_dump($tempPassword);
 
 
-        foreach ($users as $registeredUser) {
-            if (!$user->getUsername() === $registeredUser->getUsername() &&
-               password_verify($user->getPassword(), $registeredUser->getPassword())){
-                throw new \WrongCredentialsException("Wrong credentials");
-            }
-        }
-        $this->loginUser();
+
+
+        $loginByPostCredentials = password_verify($toLogin->getPassword(), $registered->getPassword());
+        $loginByCookies = $tempPassword != "" && $tempPassword === $toLogin->getCookiePassword();
+
+        var_dump($loginByCookies);
+        var_dump($loginByPostCredentials);
+
+        if (!$loginByPostCredentials && !$loginByCookies)
+            throw new \WrongCredentialsException("Wrong credentials");
+
+
+        $this->loginUser($toLogin);
     }
 
-    public function authenticateUserWithCookies(User $user) {
-
-        $users = $this->DAL->getUserCookies();
-
-
-        foreach ($users as  $registeredUser) {
-            if (!$user->getUsername() === $registeredUser->getUsername() &&
-                $user->getPassword() === $registeredUser->getPassword()){
-                throw new \WrongCredentialsException("Wrong credentials");
-            }
-        }
-        $this->loginUser();
-    }
-
-
-    private function loginUser() {
-        $this->loginStateHandler->setLoggedIn();
+    private function loginUser(User $user) {
+        $this->loginStateHandler->setLoggedIn($user);
     }
 
     public function logoutUser() {
@@ -53,12 +50,12 @@ class LoginModel {
 
     public function userIsLoggedIn() {
         if ($this->loginStateHandler != null){
-            return $this->loginStateHandler->getLoggedIn();
+            return $this->loginStateHandler->isLoggedIn();
         }
         return false;
     }
 
-    public function generateCookiePassword() {
+    private function generateCookiePassword() {
         // https://paragonie.com/blog/2015/04/secure-authentication-php-with-long-term-persistence#title.2
         // not good according to this article but will have to suffice for this assignment
         $password = '';
@@ -66,9 +63,16 @@ class LoginModel {
         for ($i = 0; $i < 30; $i++) {
             $password .= chr(mt_rand(0, 255));
         }
-        $password = bin2hex($password);
-        $this->DAL->saveCookiePassword($password);
+        return bin2hex($password);
+    }
 
-        return $password;
+    public function getTempPassword() {
+
+        $tempPassword = $this->generateCookiePassword();
+        $user = $this->loginStateHandler->getLoggedInUser();
+        var_dump($user);
+        $this->tempDAL->saveCookiePassword($user->getUsername(), $tempPassword);
+
+        return $tempPassword;
     }
 }

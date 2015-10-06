@@ -2,6 +2,8 @@
 
 namespace controller;
 
+use common\UserNotRegisteredException;
+
 class LoginController {
 
     /**
@@ -27,6 +29,7 @@ class LoginController {
         if (!$this->loginModel->userIsLoggedIn() &&
             ($this->loginView->userWantsToLogin())) {
             $this->login();
+
         } else if ($this->loginModel->userIsLoggedIn() && $this->loginView->userWantsToLogout()) {
             $this->logout();
         }
@@ -38,12 +41,11 @@ class LoginController {
         try {
             $user = $this->loginView->getUser();
             if ($user == null) return;
-            if ($user->isCookiePassword()) {
-                $this->loginModel->authenticateUserWithCookies($user);
-            } else {
-                $this->loginModel->authenticateWithPostCredentials($user);
-            }
+
+            $this->loginModel->tryLoginUser($user);
             $this->loginView->setLoginSucceeded();
+            $this->loginView->reloadPage();
+
         }  catch (\WrongCredentialsException $e) {
             $this->loginView->setLoginFailed();
         }
@@ -53,6 +55,7 @@ class LoginController {
         $this->loginModel->logoutUser();
         $this->loginView->forgetUser();
         $this->loginView->setLogoutSucceeded();
+        $this->loginView->reloadPage();
     }
 
     public function getView() {

@@ -1,6 +1,7 @@
 <?php
 
 namespace common;
+use model\User;
 
 /**
  * Lets other classes access the $_SESSION superglobal array
@@ -12,7 +13,7 @@ namespace common;
 
 class SessionHandler implements ILoginStateHandler, ITempMessageHandler {
 
-    private static $isLoggedInName = "SessionHandler::IsLoggedIn";
+    private static $sessionUserLocation = "SessionHandler::loggedInUser";
     private static $messageKey = "SessionHandler::TempMessage";
 
     public function __construct() {
@@ -31,19 +32,26 @@ class SessionHandler implements ILoginStateHandler, ITempMessageHandler {
         return "";
     }
 
-    public function setLoggedIn() {
-        $this->setData(self::$isLoggedInName, true);
+    public function getLoggedInUser(){
+        if ($this->exists(self::$sessionUserLocation)) {
+            return $this->getData(self::$sessionUserLocation);
+        }
     }
 
-    public function getLoggedIn() {
-        if ($this->exists(self::$isLoggedInName))
-            return $this->getData(self::$isLoggedInName);
+
+    public function setLoggedIn(User $user) {
+        $this->setData(self::$sessionUserLocation, $user);
+    }
+
+    public function isLoggedIn() {
+        if ($this->exists(self::$sessionUserLocation))
+            return true;
 
         return false;
     }
 
     public function setLoggedOut() {
-        $this->unsetData(self::$isLoggedInName);
+        $this->unsetData(self::$sessionUserLocation);
     }
 
     private function setData($key, $value) {

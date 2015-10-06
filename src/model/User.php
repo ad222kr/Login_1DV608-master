@@ -2,6 +2,8 @@
 
 namespace model;
 
+use common\UserNotRegisteredException;
+
 require_once('src/common/PasswordMissingException.php');
 require_once('src/common/UsernameMissingException.php');
 require_once('src/common/WrongCredentialsException.php');
@@ -9,19 +11,20 @@ require_once('src/common/WrongCredentialsException.php');
 class User {
     private $username;
     private $password;
-    private $isCookiePassword;
+    private $cookiePassword;
 
-    public function __construct($username, $password, $isCookiePassword = false) {
+    public function __construct($username, $password, $cookiePassword) {
         assert(is_string($username), "Username needs to be of type string");
         assert(is_string($password), "Password needs to be of type string");
 
         if (trim($username) == '')
             throw new \UsernameMissingException("Username is missing");
-        if (trim($password) == '')
+        if (trim($password) == '' && trim($cookiePassword) == '')
             throw new \PasswordMissingException("Password is missing");
 
         $this->username = $username;
         $this->password = $password;
+        $this->cookiePassword = $cookiePassword;
     }
 
     public function getUsername() {
@@ -32,7 +35,8 @@ class User {
         return $this->password;
     }
 
-    public function isCookiePassword() {
-        return $this->isCookiePassword;
+    public function getCookiePassword() {
+        return $this->cookiePassword;
     }
+
 }

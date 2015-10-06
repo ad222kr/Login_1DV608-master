@@ -69,10 +69,12 @@ class LoginView {
 
     public function rememberUser() {
         $username = $this->getRequestUserName();
-        $password = $this->loginModel->generateCookiePassword();
+        $password = $this->loginModel->getTempPassword();
         $this->cookieHandler->setCookie(self::$cookieName, $username, 30);
         $this->cookieHandler->setCookie(self::$cookiePassword, $password, 30);
     }
+
+
 
     public function forgetUser() {
         $this->cookieHandler->deleteCookie(self::$cookieName);
@@ -89,12 +91,12 @@ class LoginView {
         } else {
             $this->setMessage(self::$welcomeMessage, true);
         }
-        $this->reloadPage();
+        //$this->reloadPage();
     }
 
     public function setLogoutSucceeded() {
         $this->setMessage(self::$goodbyeMessage, true);
-        $this->reloadPage();
+        //$this->reloadPage();
     }
 
     public function setLoginFailed() {
@@ -111,16 +113,19 @@ class LoginView {
     public function getUser() {
         try {
             $user = null;
+            $username = "";
+            $password = "";
+            $cookiePassword = "";
 
             if ($this->userCredentialCookieExists()) {
-                $username = $this->cookieHandler->getCookie(self::$cookieName);
-                $password = $this->cookieHandler->getCookie(self::$cookiePassword);
+                $username .= $this->cookieHandler->getCookie(self::$cookieName);
+                $cookiePassword .= $this->cookieHandler->getCookie(self::$cookiePassword);
             } else {
-                $username = $this->getRequestUserName();
-                $password = $this->getRequestPassword();
+                $username .= $this->getRequestUserName();
+                $password .= $this->getRequestPassword();
             }
 
-            return new \model\User($username, $password);
+            return new \model\User($username, $password, $cookiePassword);
 
         } catch (\UsernameMissingException $e) {
             $this->setMessage(self::$nameMissingMessage);
@@ -189,7 +194,7 @@ class LoginView {
         return isset($_POST[self::$keep]);
     }
 
-    private function reloadPage() {
+    public function reloadPage() {
         header("Location: " . $_SERVER['REQUEST_URI']);
         exit();
     }

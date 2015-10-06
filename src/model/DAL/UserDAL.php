@@ -2,52 +2,27 @@
 
 namespace model\dal;
 
+require_once("src/common/UserNotRegisteredException.php");
+
 class UserDAL {
 
     private static $pathToHashedCredentials = "data/user-hashed-password";
-    private static $pathToCookieCredentials = "data/user-cookies";
-    private static $username = "Admin"; // no need to keep this in a file tbh
 
-    /**
-     * @return array
-     */
-    public function getUsersHashed() {
+    public function getUserByName($username) {
         //TODO: better names
         $scanned_dir = array_diff(scandir(self::$pathToHashedCredentials), array("..", "."));
-        $users = array();
 
-        foreach ($scanned_dir as $user) {
-            $username = $user;
-            $password = file_get_contents(self::$pathToHashedCredentials . "/" .$user);
-            $userCredentials = new \model\User($username, $password);
-            $users[] = $userCredentials;
+        foreach ($scanned_dir as $registeredName) { // file-handle is the username
+            if ($username === $registeredName) {
+                $password = file_get_contents(self::$pathToHashedCredentials . "/" . $username);
+                return new \model\User($username, $password, ""); // temp-pw empty here, maybe have same DAL for everything?
+            }
         }
-        return $users;
+        throw new \WrongCredentialsException("Could not find user in the database");
     }
 
-    public function getUsersCookies() {
-        $scanned_dir = array_diff(scandir(self::$pathToCookieCredentials), array("..", "."));
-        $users = array();
-
-        foreach ($scanned_dir as $user) {
-            $username = $user;
-            $password = file_get_contents(self::$pathToCookieCredentials . "/" .$user);
-            $userCredentials = new \model\User($username, $password);
-            $users[] = $userCredentials;
-        }
-        return $user;
-    }
-
-    public function saveHashedPassword($username, $hashedPassword) {
-        file_put_contents(self::$pathToHashedCredentials . "/" . $username, $hashedPassword);
-    }
-
-    public function saveCookiePassword($username, $cookiePassword) {
-        file_put_contents(self::$pathToCookieCredentials . "/" . $username, $cookiePassword);
-    }
-
-    public function getUserCookies() {
-        return file_get_contents(self::$pathToCookiePassword);
+    public function saveUserCredentials(User $user) {
+        file_put_contents(self::$pathToHashedCredentials . "/" . $user->getUsername(), password_hash($user->getPassword()));
     }
 
 }
