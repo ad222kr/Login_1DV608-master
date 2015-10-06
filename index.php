@@ -34,6 +34,7 @@ ini_set('display_errors', 'On');
 date_default_timezone_set("Europe/Stockholm");
 
 
+//TODO: MOVE BACK TO MASTER CONTROLLER
 
 $sessionHandler= new \common\SessionHandler();
 $cookieHandler = new \view\CookieHandler();
@@ -42,6 +43,7 @@ $userDAL = new \model\dal\UserDAL();
 $dateTimeView = new \view\DateTimeView();
 $layoutView = new \view\LayoutView();
 $navigationView = new \view\NagivationView();
+$isLoggedIn = false;
 
 if ($navigationView->userWantsToRegister()) {
 
