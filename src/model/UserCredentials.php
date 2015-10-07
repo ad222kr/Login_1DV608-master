@@ -3,9 +3,7 @@
 namespace model;
 
 
-
-
-class User {
+class UserCredentials {
     private $username;
     private $password;
     private $cookiePassword;
@@ -24,6 +22,7 @@ class User {
         $this->cookiePassword = $cookiePassword;
     }
 
+
     public function getUsername() {
         return $this->username;
     }
@@ -31,7 +30,6 @@ class User {
     public function getPassword() {
         return $this->password;
     }
-
     public function getCookiePassword() {
         return $this->cookiePassword;
     }

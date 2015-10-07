@@ -7,17 +7,18 @@
  */
 
 namespace controller;
-
 require_once('src/common/ILoginStateHandler.php');
 require_once('src/common/ITempMessageHandler.php');
 
+require_once('src/view/BaseView.php');
 require_once('src/view/LoginView.php');
 require_once('src/view/DateTimeView.php');
 require_once('src/view/LayoutView.php');
 require_once('src/view/NagivationView.php');
 require_once('src/view/RegisterView.php');
 
-require_once('src/model/User.php');
+require_once('src/model/UserCredentials.php');
+require_once('src/model/RegisterCredentials.php');
 require_once('src/model/LoginModel.php');
 require_once('src/model/RegisterModel.php');
 
@@ -28,6 +29,14 @@ require_once('src/controller/LoginController.php');
 require_once('src/controller/RegisterController.php');
 require_once('src/model/DAL/UserDAL.php');
 require_once('src/model/DAL/TempCredentialsDAL.php');
+
+require_once('src/common/PasswordMissingException.php');
+require_once('src/common/PasswordDoNotMatchException.php');
+require_once('src/common/PasswordToShortException.php');
+require_once('src/common/UsernameMissingException.php');
+require_once('src/common/UsernameToShortException.php');
+require_once('src/common/WrongCredentialsException.php');
+
 
 
 

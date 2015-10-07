@@ -1,7 +1,7 @@
 <?php
 
 namespace common;
-use model\User;
+use model\UserCredentials;
 
 /**
  * Interface for handling the state of a Users login-status,
@@ -12,7 +12,7 @@ use model\User;
  * @package model
  */
 interface ILoginStateHandler {
-    public function setLoggedIn(User $user);
+    public function setLoggedIn(UserCredentials $user);
     public function isLoggedIn();
     public function setLoggedOut();
     public function getLoggedInUser();

@@ -1,7 +1,7 @@
 <?php
 
 namespace common;
-use model\User;
+use model\UserCredentials;
 
 /**
  * Lets other classes access the $_SESSION superglobal array
@@ -39,7 +39,7 @@ class SessionHandler implements ILoginStateHandler, ITempMessageHandler {
     }
 
 
-    public function setLoggedIn(User $user) {
+    public function setLoggedIn(UserCredentials $user) {
         $this->setData(self::$sessionUserLocation, $user);
     }
 

@@ -13,7 +13,7 @@ class UserDAL {
         foreach ($scanned_dir as $registeredName) { // file-handle is the username
             if ($username === $registeredName) {
                 $password = file_get_contents(self::$pathToHashedCredentials . "/" . $username);
-                return new \model\User($username, $password, ""); // temp-pw empty here, maybe have same DAL for everything?
+                return new \model\UserCredentials($username, $password, ""); // temp-pw empty here, maybe have same DAL for everything?
             }
         }
         throw new \WrongCredentialsException("Could not find user in the database");

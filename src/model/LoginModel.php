@@ -18,7 +18,7 @@ class LoginModel {
         $this->tempDAL = new TempCredentialsDAL();
     }
 
-    public function tryLoginUser(User $toLogin) {
+    public function tryLoginUser(UserCredentials $toLogin) {
         $registered = $this->userDAL->getUserByName($toLogin->getUsername());
         $tempPassword = $this->tempDAL->getTempPassword($toLogin->getUsername());
 
@@ -32,7 +32,7 @@ class LoginModel {
         $this->loginUser($toLogin);
     }
 
-    private function loginUser(User $user) {
+    private function loginUser(UserCredentials $user) {
         $this->loginStateHandler->setLoggedIn($user);
     }
 

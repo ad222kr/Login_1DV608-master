@@ -9,7 +9,7 @@
 namespace view;
 
 
-class RegisterView {
+class RegisterView extends BaseView {
 
 	private static $registerName = "?register";
 	private static $messageID = "RegisterView::Message";

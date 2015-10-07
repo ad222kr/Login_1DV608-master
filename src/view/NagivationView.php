@@ -13,6 +13,9 @@ class NagivationView {
 
     private static $registerName = "register";
 
+
+
+
     public function userWantsToRegister() {
         return $this->registerIsSet();
     }

@@ -2,9 +2,9 @@
 
 namespace view;
 
-use model\User;
+use model\UserCredentials;
 
-class LoginView {
+class LoginView extends BaseView {
     private static $login = 'LoginView::Login';
     private static $logout = 'LoginView::Logout';
     private static $name = 'LoginView::UserName';
@@ -23,10 +23,7 @@ class LoginView {
     private static $wrongCookieInfoMessage = "Wrong information in cookies";
     private static $welcomeWithCookieMessage = "Welcome back with cookie";
 
-    /**
-     * @var \common\ITempMessageHandler
-     */
-    private $tempMessageHandler;
+
 
     /**
      * @var \view\CookieHandler
@@ -38,15 +35,12 @@ class LoginView {
      */
     private $loginModel;
 
-    /**
-     * @var String, Feedback message
-     */
-    private $message = null;
+
 
 
     public function __construct(\common\ITempMessageHandler $tempMessageHandler, CookieHandler $cookieHandler,
                                 \model\LoginModel $loginModel) {
-        $this->tempMessageHandler = $tempMessageHandler;
+        parent::__construct($tempMessageHandler);
         $this->loginModel = $loginModel;
         $this->cookieHandler = $cookieHandler;
     }
@@ -108,7 +102,7 @@ class LoginView {
     }
 
     /**
-    * @return User, object of \model\User
+    * @return UserCredentials, object of \model\User
     */
     public function getUser() {
         try {
@@ -125,7 +119,7 @@ class LoginView {
                 $password .= $this->getRequestPassword();
             }
 
-            return new \model\User($username, $password, $cookiePassword);
+            return new \model\UserCredentials($username, $password, $cookiePassword);
 
         } catch (\UsernameMissingException $e) {
             $this->setMessage(self::$nameMissingMessage);
@@ -139,26 +133,13 @@ class LoginView {
      * member-variable.
      * @return string, message for the user, empty if no message is set
      */
-    private function getMessage() {
-        if (strlen($this->message) > 0) {
-            return $this->message;
-        }
-        return $this->tempMessageHandler->getMessage();
-    }
+
 
     /**
      * @param $message, String feedback to the user
      * @param $shouldPersistRedirect, bool if the message needs to persist a redirect
      */
-    private function setMessage($message, $shouldPersistRedirect = false) {
-        assert(is_string($message));
-        assert(is_bool($shouldPersistRedirect));
-        if ($shouldPersistRedirect) {
-            $this->tempMessageHandler->setMessage($message);
-        } else {
-            $this->message = $message;
-        }
-    }
+
 
     private function userCredentialCookieExists() {
         if ($this->cookieHandler->getCookie(self::$cookieName) != null &&
@@ -194,16 +175,9 @@ class LoginView {
         return isset($_POST[self::$keep]);
     }
 
-    public function reloadPage() {
-        header("Location: " . $_SERVER['REQUEST_URI']);
-        exit();
-    }
 
-    private function sanitizeInput($stringToSanitize) {
-        assert(is_string($stringToSanitize));
-        $sanitized = htmlspecialchars($stringToSanitize, ENT_COMPAT,'ISO-8859-1');
-        return $sanitized;
-    }
+
+
 
     /**
      * Generate HTML code on the output buffer for the logout button
