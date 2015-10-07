@@ -23,7 +23,7 @@ class RegisterView extends BaseView
 	private static $usernameID = "RegisterView::UserName";
 	private static $passwordID = "RegisterView::Password";
 	private static $passwordRepeatID = "RegisterView::PasswordRepeat";
-	private static $register = "DoRegistration";
+	private static $register = "RegisterView::Register";
 
 	private static $credentialsMissingMessage = "Username has too few characters, at least 3 characters. Password has too few characters, at least 6 characters.";
 	private static $passwordToShortOrMissingMessage = "Password has too few characters, at least 6 characters.";
@@ -40,7 +40,8 @@ class RegisterView extends BaseView
 
 
 	public function response() {
-		return $this->generateForm($this->getMessage());
+		$message = $this->getMessage();
+		return $this->generateForm($message);
 	}
 
 

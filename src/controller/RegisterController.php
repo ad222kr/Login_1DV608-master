@@ -21,7 +21,11 @@ class RegisterController {
 
     public function doRegisterAction() {
         if ($this->registerView->userPressedRegister()) {
+
+
             $registrationCredentials = $this->registerView->getRegistrationCredentials();
+            //$this->registerModel->registerUser($registrationCredentials);
+            //$this->registerView->setRegistrationSuccess();
         }
     }
 
