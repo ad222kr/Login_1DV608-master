@@ -13,7 +13,7 @@ class RegisterView {
 
 	private static $registerName = "?register";
 	private static $messageID = "RegisterView::Message";
-	private static $usernameID = "RegisterView::UerName";
+	private static $usernameID = "RegisterView::UserName";
 	private static $passwordID = "RegisterView::Password";
 	private static $passwordRepeatID = "RegisterView::PasswordRepeat";
 
