@@ -36,6 +36,7 @@ require_once('src/common/PasswordToShortException.php');
 require_once('src/common/UsernameMissingException.php');
 require_once('src/common/UsernameToShortException.php');
 require_once('src/common/WrongCredentialsException.php');
+require_once('src/common/RegistrationCredentialsMissingException.php');
 
 
 

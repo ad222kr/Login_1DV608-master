@@ -25,9 +25,13 @@ class RegisterCredentials extends UserCredentials {
 
     public function __construct($username, $password, $repeatPassword) {
 
-        if (strlen($username) < self::$minUsernameLength)
+        if (trim($username) == "" && trim($password) == "") {
+            throw new \common\RegistrationCredentialsMissingException("Credentials missing");
+        }
+
+        if (trim(strlen($username)) < self::$minUsernameLength)
             throw new \common\UsernameToShortException("Username to short");
-        if (strlen($password) < self::$minPasswordLength)
+        if (trim(strlen($password)) < self::$minPasswordLength)
             throw new \common\PasswordToShortException("Password to short");
         if ($password !== $repeatPassword)
             throw new \common\PasswordDoNotMatchException("Passwords do not match");

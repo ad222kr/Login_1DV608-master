@@ -20,7 +20,10 @@ class RegisterController {
     }
 
     public function doRegisterAction() {
-        // TODO: implement
+        if ($this->registerView->userPressedRegister()) {
+            $registrationCredentials = $this->registerView->getRegistrationCredentials();
+            $this->registerView->reloadPage();
+        }
     }
 
     public function getView() {
