@@ -29,6 +29,9 @@ class RegisterView extends BaseView
 	private static $passwordToShortOrMissingMessage = "Password has too few characters, at least 6 characters.";
 	private static $usernameToShortMessage = "Username has too few characters, at least 3 characters.";
 	private static $passwordDoNotMatchMessage = "Passwords do not match.";
+    private static $registrationSuccessMessage = "Registered new user.";
+    private static $userAlreadyExistsMessage = "User exists, pick another username";
+    private static $notAllowedCharactersInUsernameMessage = "Username contains invalid characters.";
 
 	private $registerModel;
 
@@ -53,17 +56,27 @@ class RegisterView extends BaseView
 			$username = $this->getRequestUsername();
 			$password = $this->getRequestPassword();
 			$repeatPassword = $this->getRequestRepeatPassword();
-			$test = new RegisterCredentials($username, $password, $repeatPassword);
+			return new RegisterCredentials($username, $password, $repeatPassword);
 		} catch (RegistrationCredentialsMissingException $e) {
 			$this->setMessage(self::$credentialsMissingMessage, true);
-		} catch(UsernameToShortException $e) {
+		} catch(\common\UsernameToShortException $e) {
 			$this->setMessage(self::$usernameToShortMessage, true);
-		} catch(PasswordToShortException $e) {
+		} catch(\common\NotAllowedCharactersInUsernameException $e) {
+            $this->setMessage(self::$notAllowedCharactersInUsernameMessage, true);
+        } catch(\common\PasswordToShortException $e) {
 			$this->setMessage(self::$passwordToShortOrMissingMessage, true);
-		} catch(PasswordDoNotMatchException $e){
+		} catch(\common\PasswordDoNotMatchException $e){
 			$this->setMessage(self::$passwordDoNotMatchMessage, true);
 		}
 	}
+
+    public function setRegistrationFailed() {
+        $this->setMessage(self::$userAlreadyExistsMessage, true);
+    }
+
+    public function setRegistrationSuccessful() {
+        $this->setMessage(self::$registrationSuccessMessage, true);
+    }
 
 	private function getRequestUsername()
 	{
@@ -96,7 +109,7 @@ class RegisterView extends BaseView
  				<legend>Register a new user - Write username and password</legend>
  				<p id="' . self::$messageID . '">' . $message . '</p>
  				<label for="' . self::$usernameID . '" >Username : </label>
- 				<input type="text" size="20" name="' . self::$usernameID . '" id="' . self::$usernameID . '" value="'. $this->getRequestUsername() .'" />
+ 				<input type="text" size="20" name="' . self::$usernameID . '" id="' . self::$usernameID . '" value="'. strip_tags($this->getRequestUsername()) .'" />
  				<br/>
  				<label for="' . self::$passwordID . '" >Password :</label>
  				<input type="password" size="20" name="' . self::$passwordID . '" id="' . self::$passwordID . '" value="" />

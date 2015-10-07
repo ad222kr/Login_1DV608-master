@@ -23,9 +23,16 @@ class RegisterController {
         if ($this->registerView->userPressedRegister()) {
 
 
-            $registrationCredentials = $this->registerView->getRegistrationCredentials();
-            //$this->registerModel->registerUser($registrationCredentials);
-            //$this->registerView->setRegistrationSuccess();
+
+            try{
+                $registrationCredentials = $this->registerView->getRegistrationCredentials();
+                //$this->registerModel->registerUser($registrationCredentials);
+                //$this->registerView->setRegistrationSuccess();
+            } catch (UsernameTakenException $e) {
+                $this->registerView->setRegistrationFailed();
+            }
+
+
         }
     }
 
