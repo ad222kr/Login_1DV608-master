@@ -95,8 +95,8 @@ class RegisterView extends BaseView
  				<fieldset>
  				<legend>Register a new user - Write username and password</legend>
  				<p id="' . self::$messageID . '">' . $message . '</p>
- 				<label for="' . self::$usernameID . '" >Username :</label>
- 				<input type="text" size="20" name="' . self::$usernameID . '" id="' . self::$usernameID . '" value="" />
+ 				<label for="' . self::$usernameID . '" >Username : </label>
+ 				<input type="text" size="20" name="' . self::$usernameID . '" id="' . self::$usernameID . '" value="'. $this->getRequestUsername() .'" />
  				<br/>
  				<label for="' . self::$passwordID . '" >Password :</label>
  				<input type="password" size="20" name="' . self::$passwordID . '" id="' . self::$passwordID . '" value="" />
