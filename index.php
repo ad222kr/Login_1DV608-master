@@ -37,36 +37,8 @@ date_default_timezone_set("Europe/Stockholm");
 //TODO: MOVE BACK TO MASTER CONTROLLER
 //TODO: check why testcase 1.8 doesnt work now?? in automated tests.....
 
-$sessionHandler= new \common\SessionHandler();
-$cookieHandler = new \view\CookieHandler();
-$userDAL = new \model\dal\UserDAL();
 
-$dateTimeView = new \view\DateTimeView();
-$layoutView = new \view\LayoutView();
-$navigationView = new \view\NagivationView();
-$isLoggedIn = false;
 
-if ($navigationView->userWantsToRegister()) {
-
-    $registerModel = new \model\RegisterModel($userDAL);
-    $registerView = new \view\RegisterView($sessionHandler, $registerModel);
-    $registerController = new \controller\RegisterController($registerModel, $registerView);
-
-    $registerController->doRegisterAction();
-    $html = $registerController->getView()->response();
-} else {
-
-    $loginModel = new \model\LoginModel($sessionHandler, $userDAL);
-    $loginView = new \view\LoginView($sessionHandler, $cookieHandler, $loginModel);
-    $loginController = new \controller\LoginController($loginModel, $loginView);
-
-    $isLoggedIn = $loginController->doLoginAction();
-    $html = $loginController->getView()->response();
-
-}
-
-$layoutView->render($isLoggedIn, $html, $dateTimeView, $navigationView);
-
-//$app = new \controller\MasterController();
-//$app->run();
+$app = new \controller\MasterController();
+$app->run();
 
