@@ -9,11 +9,7 @@
 namespace view;
 
 
-use common\PasswordDoNotMatchException;
-use common\PasswordToShortException;
-use common\RegistrationCredentialsMissingException;
-use common\UsernameToShortException;
-use model\RegisterCredentials;
+
 
 class RegisterView extends BaseView
 {
@@ -41,14 +37,10 @@ class RegisterView extends BaseView
 		$this->registerModel = $registerModel;
 	}
 
-
 	public function response() {
 		$message = $this->getMessage();
 		return $this->generateForm($message);
 	}
-
-
-
 
 	public function getRegistrationCredentials() {
 
@@ -56,8 +48,8 @@ class RegisterView extends BaseView
 			$username = $this->getRequestUsername();
 			$password = $this->getRequestPassword();
 			$repeatPassword = $this->getRequestRepeatPassword();
-			return new RegisterCredentials($username, $password, $repeatPassword);
-		} catch (RegistrationCredentialsMissingException $e) {
+			return new\model\RegisterCredentials($username, $password, $repeatPassword);
+		} catch (\common\RegistrationCredentialsMissingException $e) {
 			$this->setMessage(self::$credentialsMissingMessage, true);
 		} catch(\common\UsernameToShortException $e) {
 			$this->setMessage(self::$usernameToShortMessage, true);
