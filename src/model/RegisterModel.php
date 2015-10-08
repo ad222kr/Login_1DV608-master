@@ -20,8 +20,9 @@ class RegisterModel {
     }
 
     public function registerUser(RegisterCredentials $credentials) {
-        if ($this->isUsernameTaken($credentials->getUsername()))
+        if ($this->DAL->usernameExists($credentials->getUsername())){
             throw new \common\UsernameTakenException("Username taken");
+        }
 
         $this->saveUser($credentials);
 
@@ -31,19 +32,7 @@ class RegisterModel {
         $this->DAL->saveUserCredentials($credentials->getUsername(), $credentials->getPassword());
     }
 
-    private function isUsernameTaken($username) {
-        try {
-            $registeredUsername = $this->DAL->getUserByName($username)->getUsername();
-            return true;
-        } catch (\WrongCredentialsException $e) {
-            // if WrongCredentialsException is thrown from DAL the username is not taken
-            // maybe fix better solution?
-            return false;
-        } catch (\PasswordMissingException $e) {
-            // when username is not taken this exception is thrown from UserCredentials.
-            // TODO: Fix better
-            return false;
-        }
-    }
+
+
 
 }

@@ -26,9 +26,11 @@ class RegisterController {
                 $registrationCredentials = $this->registerView->getRegistrationCredentials();
                 if ($registrationCredentials == null) return;
                 $this->registerModel->registerUser($registrationCredentials);
-                //$this->registerView->setRegistrationSuccess();
+                $this->registerView->setRegistrationSuccess();
             } catch (\common\UsernameTakenException $e) {
                 $this->registerView->setRegistrationFailed();
+            } catch (\Exception $e) {
+                $this->registerView->setDatabaseError();
             }
         }
     }

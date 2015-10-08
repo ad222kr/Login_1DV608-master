@@ -11,8 +11,7 @@ namespace view;
 
 
 
-class RegisterView extends BaseView
-{
+class RegisterView extends BaseView {
 
 	private static $registerName = "?register";
 	private static $messageID = "RegisterView::Message";
@@ -26,13 +25,13 @@ class RegisterView extends BaseView
 	private static $usernameToShortMessage = "Username has too few characters, at least 3 characters.";
 	private static $passwordDoNotMatchMessage = "Passwords do not match.";
     private static $registrationSuccessMessage = "Registered new user.";
-    private static $userAlreadyExistsMessage = "User exists, pick another username";
+    private static $userAlreadyExistsMessage = "User exists, pick another username.";
     private static $notAllowedCharactersInUsernameMessage = "Username contains invalid characters.";
+	private static $databaseErrorMessage = "Something went wrong when saving data";
 
 	private $registerModel;
 
-	public function __construct(\common\ITempMessageHandler $tempMessageHandler, \model\RegisterModel $registerModel)
-	{
+	public function __construct(\common\ITempMessageHandler $tempMessageHandler, \model\RegisterModel $registerModel) {
 		parent::__construct($tempMessageHandler);
 		$this->registerModel = $registerModel;
 	}
@@ -42,13 +41,20 @@ class RegisterView extends BaseView
 		return $this->generateForm($message);
 	}
 
+	public function setRegistrationSuccess() {
+		header("Location: ?");
+		exit();
+	}
+
 	public function getRegistrationCredentials() {
 
 		try {
 			$username = $this->getRequestUsername();
 			$password = $this->getRequestPassword();
 			$repeatPassword = $this->getRequestRepeatPassword();
+
 			return new \model\RegisterCredentials($username, $password, $repeatPassword);
+
 		} catch (\common\RegistrationCredentialsMissingException $e) {
 			$this->setMessage(self::$credentialsMissingMessage, true);
 		} catch(\common\UsernameToShortException $e) {
@@ -62,12 +68,17 @@ class RegisterView extends BaseView
 		}
 	}
 
+	public function setDatabaseError() {
+		$this->setMessage(sefl::$databaseErrorMessage, true);
+	}
+
     public function setRegistrationFailed() {
         $this->setMessage(self::$userAlreadyExistsMessage, true);
     }
 
     public function setRegistrationSuccessful() {
         $this->setMessage(self::$registrationSuccessMessage, true);
+
     }
 
 	private function getRequestUsername()
