@@ -13,6 +13,8 @@ use model\UserCredentials;
 
 class SessionHandler implements ILoginStateHandler, ITempMessageHandler {
 
+    //TODO: Add more exceptions instead of returning null or empty strings!
+
     private static $sessionUserLocation = "SessionHandler::loggedInUser";
     private static $messageKey = "SessionHandler::TempMessage";
 

@@ -24,9 +24,9 @@ class RegisterView extends BaseView {
 	private static $passwordToShortOrMissingMessage = "Password has too few characters, at least 6 characters.";
 	private static $usernameToShortMessage = "Username has too few characters, at least 3 characters.";
 	private static $passwordDoNotMatchMessage = "Passwords do not match.";
-    private static $registrationSuccessMessage = "Registered new user.";
-    private static $userAlreadyExistsMessage = "User exists, pick another username.";
-    private static $notAllowedCharactersInUsernameMessage = "Username contains invalid characters.";
+	private static $registrationSuccessMessage = "Registered new user.";
+	private static $userAlreadyExistsMessage = "User exists, pick another username.";
+	private static $notAllowedCharactersInUsernameMessage = "Username contains invalid characters.";
 	private static $databaseErrorMessage = "Something went wrong when saving data";
 
 	private $registerModel;
@@ -62,8 +62,8 @@ class RegisterView extends BaseView {
 		} catch(\common\UsernameToShortException $e) {
 			$this->setMessage(self::$usernameToShortMessage, true);
 		} catch(\common\NotAllowedCharactersInUsernameException $e) {
-            $this->setMessage(self::$notAllowedCharactersInUsernameMessage, true);
-        } catch(\common\PasswordToShortException $e) {
+			$this->setMessage(self::$notAllowedCharactersInUsernameMessage, true);
+		} catch(\common\PasswordToShortException $e) {
 			$this->setMessage(self::$passwordToShortOrMissingMessage, true);
 		} catch(\common\PasswordDoNotMatchException $e){
 			$this->setMessage(self::$passwordDoNotMatchMessage, true);
@@ -74,25 +74,23 @@ class RegisterView extends BaseView {
 		$this->setMessage(sefl::$databaseErrorMessage, true);
 	}
 
-    public function setRegistrationFailed() {
-        $this->setMessage(self::$userAlreadyExistsMessage, true);
-    }
+	public function setRegistrationFailed() {
+		$this->setMessage(self::$userAlreadyExistsMessage, true);
+	}
 
-    public function setRegistrationSuccessful() {
-        $this->setMessage(self::$registrationSuccessMessage, true);
+	public function setRegistrationSuccessful() {
+		$this->setMessage(self::$registrationSuccessMessage, true);
 
-    }
+	}
 
-	private function getRequestUsername()
-	{
+	private function getRequestUsername() {
 		if (isset($_POST[self::$usernameID])) {
 			return $_POST[self::$usernameID];
 		}
 		return "";
 	}
 
-	private function getRequestPassword()
-	{
+	private function getRequestPassword(){
 		if (isset($_POST[self::$passwordID])) {
 			return $_POST[self::$passwordID];
 		}
@@ -108,22 +106,22 @@ class RegisterView extends BaseView {
 	private function generateForm($message) {
 
 		return '<form action="' . self::$registerName . '" method="post" enctype="multipart/formdata">
- 				<fieldset>
- 				<legend>Register a new user - Write username and password</legend>
- 				<p id="' . self::$messageID . '">' . $message . '</p>
- 				<label for="' . self::$usernameID . '" >Username : </label>
- 				<input type="text" size="20" name="' . self::$usernameID . '" id="' . self::$usernameID . '" value="'. strip_tags($this->getRequestUsername()) .'" />
- 				<br/>
- 				<label for="' . self::$passwordID . '" >Password :</label>
- 				<input type="password" size="20" name="' . self::$passwordID . '" id="' . self::$passwordID . '" value="" />
-				<br/>
- 				<label for="' . self::$passwordRepeatID . '" >Repeat password :</label>
- 				<input type="password" size="20" name="' . self::$passwordRepeatID . '" id="' . self::$passwordRepeatID . '" value="" />
- 				<br/>
- 				<input id="submit" type="submit" name="' . self::$register .'" value="Register" />
- 				<br/>
- 				</fieldset>
- 				</form>';
+				<fieldset>
+					<legend>Register a new user - Write username and password</legend>
+					<p id="' . self::$messageID . '">' . $message . '</p>
+					<label for="' . self::$usernameID . '" >Username : </label>
+					<input type="text" size="20" name="' . self::$usernameID . '" id="' . self::$usernameID . '" value="'. strip_tags($this->getRequestUsername()) .'" />
+					<br/>
+					<label for="' . self::$passwordID . '" >Password :</label>
+					<input type="password" size="20" name="' . self::$passwordID . '" id="' . self::$passwordID . '" value="" />
+					<br/>
+					<label for="' . self::$passwordRepeatID . '" >Repeat password :</label>
+					<input type="password" size="20" name="' . self::$passwordRepeatID . '" id="' . self::$passwordRepeatID . '" value="" />
+					<br/>
+					<input id="submit" type="submit" name="' . self::$register .'" value="Register" />
+					<br/>
+				</fieldset>
+				</form>';
 	}
 
 	public function userPressedRegister() {
