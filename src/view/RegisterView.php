@@ -48,7 +48,7 @@ class RegisterView extends BaseView
 			$username = $this->getRequestUsername();
 			$password = $this->getRequestPassword();
 			$repeatPassword = $this->getRequestRepeatPassword();
-			return new\model\RegisterCredentials($username, $password, $repeatPassword);
+			return new \model\RegisterCredentials($username, $password, $repeatPassword);
 		} catch (\common\RegistrationCredentialsMissingException $e) {
 			$this->setMessage(self::$credentialsMissingMessage, true);
 		} catch(\common\UsernameToShortException $e) {
