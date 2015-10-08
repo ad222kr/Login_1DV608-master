@@ -26,7 +26,7 @@ class CookieHandler {
     public function deleteCookie($name) {
         if (isset($_COOKIE[$name])) {
             unset($_COOKIE[$name]);
-            setcookie($name, null, -1); // remove cookie instantly
+            setcookie($name, null, -1); // remove cookie INSTANTLY
         }
     }
 }
