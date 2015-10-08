@@ -92,9 +92,7 @@ class RegisterView extends BaseView
 		}
 	}
 
-	private function generateForm($message)
-	{
-		//TODO: fix proper form-string
+	private function generateForm($message) {
 
 		return '<form action="' . self::$registerName . '" method="post" enctype="multipart/formdata">
  				<fieldset>
@@ -118,6 +116,5 @@ class RegisterView extends BaseView
 	public function userPressedRegister() {
 		return isset($_POST[self::$register]);
 	}
-
 }
 

@@ -62,7 +62,6 @@ class LoginModel {
 
         $tempPassword = $this->generateCookiePassword();
         $user = $this->loginStateHandler->getLoggedInUser();
-        var_dump($user);
         $this->tempDAL->saveCookiePassword($user->getUsername(), $tempPassword);
 
         return $tempPassword;

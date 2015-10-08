@@ -35,6 +35,7 @@ require_once('src/common/PasswordDoNotMatchException.php');
 require_once('src/common/PasswordToShortException.php');
 require_once('src/common/UsernameMissingException.php');
 require_once('src/common/UsernameToShortException.php');
+require_once('src/common/UsernameTakenException.php');
 require_once('src/common/WrongCredentialsException.php');
 require_once('src/common/RegistrationCredentialsMissingException.php');
 require_once('src/common/NotAllowedCharactersInUsernameException.php');
@@ -46,13 +47,11 @@ require_once('src/common/NotAllowedCharactersInUsernameException.php');
 
 class MasterController {
 
-    private $sessionHandler;
-    private $cookieHandler;
+
     private $userDAL;
 
     public function __construct() {
-        $this->sessionHandler= new \common\SessionHandler();
-        $this->cookieHandler = new \view\CookieHandler();
+
         $this->userDAL = new \model\dal\UserDAL();
     }
 
@@ -63,20 +62,23 @@ class MasterController {
         $dateTimeView = new \view\DateTimeView();
         $layoutView = new \view\LayoutView();
         $navigationView = new \view\NagivationView();
+        $sessionHandler = new \common\SessionHandler();
         $isLoggedIn = false;
 
         if ($navigationView->userWantsToRegister()) {
 
+
             $registerModel = new \model\RegisterModel($this->userDAL);
-            $registerView = new \view\RegisterView($this->sessionHandler, $registerModel);
+            $registerView = new \view\RegisterView($sessionHandler, $registerModel);
             $registerController = new \controller\RegisterController($registerModel, $registerView);
 
             $registerController->doRegisterAction();
             $html = $registerController->getView()->response();
         } else {
 
-            $loginModel = new \model\LoginModel($this->sessionHandler, $this->userDAL);
-            $loginView = new \view\LoginView($this->sessionHandler, $this->cookieHandler, $loginModel);
+            $cookieHandler = new \view\CookieHandler();
+            $loginModel = new \model\LoginModel($sessionHandler, $this->userDAL);
+            $loginView = new \view\LoginView($sessionHandler, $cookieHandler, $loginModel);
             $loginController = new \controller\LoginController($loginModel, $loginView);
 
             $isLoggedIn = $loginController->doLoginAction();

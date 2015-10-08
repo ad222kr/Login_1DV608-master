@@ -134,13 +134,6 @@ class LoginView extends BaseView {
      * @return string, message for the user, empty if no message is set
      */
 
-
-    /**
-     * @param $message, String feedback to the user
-     * @param $shouldPersistRedirect, bool if the message needs to persist a redirect
-     */
-
-
     private function userCredentialCookieExists() {
         if ($this->cookieHandler->getCookie(self::$cookieName) != null &&
             $this->cookieHandler->getCookie(self::$cookiePassword) != null) {

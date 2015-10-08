@@ -22,17 +22,13 @@ class RegisterController {
     public function doRegisterAction() {
         if ($this->registerView->userPressedRegister()) {
 
-
-
             try{
                 $registrationCredentials = $this->registerView->getRegistrationCredentials();
-                //$this->registerModel->registerUser($registrationCredentials);
+                $this->registerModel->registerUser($registrationCredentials);
                 //$this->registerView->setRegistrationSuccess();
-            } catch (UsernameTakenException $e) {
+            } catch (\common\UsernameTakenException $e) {
                 $this->registerView->setRegistrationFailed();
             }
-
-
         }
     }
 
