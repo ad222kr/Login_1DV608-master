@@ -54,11 +54,13 @@ class LoginView extends BaseView {
      */
     public function response() {
 
+        $message = $this->getMessage();
+
         if ($this->loginModel->userIsLoggedIn()){
-            return $this->generateLogoutButtonHTML($this->getMessage());
+            return $this->generateLogoutButtonHTML($message);
         }
 
-        return $this->generateLoginFormHTML($this->getMessage());
+        return $this->generateLoginFormHTML($message);;
     }
 
     public function rememberUser() {
@@ -85,12 +87,11 @@ class LoginView extends BaseView {
         } else {
             $this->setMessage(self::$welcomeMessage, true);
         }
-        //$this->reloadPage();
     }
 
     public function setLogoutSucceeded() {
         $this->setMessage(self::$goodbyeMessage, true);
-        //$this->reloadPage();
+
     }
 
     public function setLoginFailed() {
@@ -168,6 +169,14 @@ class LoginView extends BaseView {
         return isset($_POST[self::$keep]);
     }
 
+    private function getUsernameToForm() {
+        if (isset($_SESSION["username"])){
+            $name = $_SESSION["username"];
+            unset($_SESSION["username"]);
+            return $name;
+        }
+        return $this->getRequestUserName();
+    }
 
 
 
@@ -199,7 +208,7 @@ class LoginView extends BaseView {
                     <p id="' . self::$messageId . '">' . $message . '</p>
 
                     <label for="' . self::$name . '">Username :</label>
-                    <input type="text" id="' . self::$name . '" name="' . self::$name . '" value="'. $this->getRequestUserName(). '" />
+                    <input type="text" id="' . self::$name . '" name="' . self::$name . '" value="'. $this->getUsernameToForm() . '" />
 
                     <label for="' . self::$password . '">Password :</label>
                     <input type="password" id="' . self::$password . '" name="' . self::$password . '" />

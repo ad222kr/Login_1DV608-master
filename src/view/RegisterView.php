@@ -42,6 +42,8 @@ class RegisterView extends BaseView {
 	}
 
 	public function setRegistrationSuccess() {
+		$this->setMessage("Registered new user.", true);
+		$_SESSION["username"] = $this->getRequestUsername(); //TODO: remove str-dep
 		header("Location: ?");
 		exit();
 	}
