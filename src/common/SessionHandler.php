@@ -11,25 +11,25 @@ use model\UserCredentials;
  * @package common
  */
 
-class SessionHandler implements ILoginStateHandler, ITempMessageHandler {
+class SessionHandler implements ILoginStateHandler, ITempDataHandler {
 
     //TODO: Add more exceptions instead of returning null or empty strings!
 
     private static $sessionUserLocation = "SessionHandler::loggedInUser";
-    private static $messageKey = "SessionHandler::TempMessage";
+
 
     public function __construct() {
         session_start();
     }
 
-    public function setMessage($message) {
-        assert(is_string($message), "Argument \$message needs to be of type string");
-        $this->setData(self::$messageKey, $message);
+    public function setTempData($key, $value) {
+        assert(is_string($value), "Argument \$message needs to be of type string");
+        $this->setData($key, $value);
     }
 
-    public function getMessage() {
-        if ($this->exists(self::$messageKey))
-            return $this->getAndUnset(self::$messageKey);
+    public function getTempData($key) {
+        if ($this->exists($key))
+            return $this->getAndUnset($key);
 
         return "";
     }
@@ -83,4 +83,11 @@ class SessionHandler implements ILoginStateHandler, ITempMessageHandler {
         return isset($_SESSION[$key]);
     }
 
+    public function setRegisteredUsername($name) {
+        $this->setData(self::$registeredUsernameKey, $name);
+    }
+
+    public function getRegisteredUsername() {
+        $this->getAndUnset(self::$registeredUsernameKey);
+    }
 }

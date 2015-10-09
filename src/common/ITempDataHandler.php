@@ -10,7 +10,8 @@ namespace common;
  * @package view
  */
 
-interface ITempMessageHandler {
-    public function getMessage();
-    public function setMessage($value);
+interface ITempDataHandler {
+    public function getTempData($key);
+    public function setTempData($key, $value);
+
 }

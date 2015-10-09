@@ -9,15 +9,17 @@
 namespace view;
 
 
-use common\ITempMessageHandler;
+use common\ITempDataHandler;
 
 abstract class BaseView {
 
+    private static $messageKey = "SessionHandler::TempMessage";
+    protected static $registeredUsernameKey = "SessionHandler::Username";
 
     /**
-     * @var \common\ITempMessageHandler
+     * @var \common\ITempDataHandler
      */
-    private $tempMessageHandler;
+    protected $tempDataHandler;
 
 
 
@@ -26,8 +28,8 @@ abstract class BaseView {
      */
     protected $message = null;
 
-    public function __construct(ITempMessageHandler $tempMessageHandler) {
-        $this->tempMessageHandler = $tempMessageHandler;
+    public function __construct(ITempDataHandler $tempDataHandler) {
+        $this->tempDataHandler = $tempDataHandler;
     }
 
     protected function sanitizeInput($stringToSanitize) {
@@ -45,7 +47,7 @@ abstract class BaseView {
         assert(is_string($message));
         assert(is_bool($shouldPersistRedirect));
         if ($shouldPersistRedirect) {
-            $this->tempMessageHandler->setMessage($message);
+            $this->tempDataHandler->setTempData(self::$messageKey, $message);
         } else {
             $this->message = $message;
         }
@@ -55,7 +57,7 @@ abstract class BaseView {
         if (strlen($this->message) > 0) {
             return $this->message;
         }
-        return $this->tempMessageHandler->getMessage();
+        return $this->tempDataHandler->getTempData(self::$messageKey);
     }
 
 }

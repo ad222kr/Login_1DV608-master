@@ -38,9 +38,9 @@ class LoginView extends BaseView {
 
 
 
-    public function __construct(\common\ITempMessageHandler $tempMessageHandler, CookieHandler $cookieHandler,
+    public function __construct(\common\ITempDataHandler $tempDataHandler, CookieHandler $cookieHandler,
                                 \model\LoginModel $loginModel) {
-        parent::__construct($tempMessageHandler);
+        parent::__construct($tempDataHandler);
         $this->loginModel = $loginModel;
         $this->cookieHandler = $cookieHandler;
     }
@@ -170,12 +170,8 @@ class LoginView extends BaseView {
     }
 
     private function getUsernameToForm() {
-        if (isset($_SESSION["username"])){
-            $name = $_SESSION["username"];
-            unset($_SESSION["username"]);
-            return $name;
-        }
-        return $this->getRequestUserName();
+
+        return  $this->tempDataHandler->getTempData(self::$registeredUsernameKey) | $this->getRequestUserName();
     }
 
     /**

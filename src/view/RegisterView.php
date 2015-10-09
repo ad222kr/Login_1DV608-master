@@ -28,11 +28,12 @@ class RegisterView extends BaseView {
     private static $userAlreadyExistsMessage = "User exists, pick another username.";
     private static $notAllowedCharactersInUsernameMessage = "Username contains invalid characters.";
     private static $databaseErrorMessage = "Something went wrong when saving data";
+	private static $registeredNewUserMessage = "Registered new user.";
 
     private $registerModel;
 
-    public function __construct(\common\ITempMessageHandler $tempMessageHandler, \model\RegisterModel $registerModel) {
-        parent::__construct($tempMessageHandler);
+    public function __construct(\common\ITempDataHandler $tempDataHandler, \model\RegisterModel $registerModel) {
+        parent::__construct($tempDataHandler);
         $this->registerModel = $registerModel;
     }
 
@@ -42,8 +43,8 @@ class RegisterView extends BaseView {
     }
 
     public function setRegistrationSuccess() {
-        $this->setMessage("Registered new user.", true);
-        $_SESSION["username"] = $this->getRequestUsername(); //TODO: remove str-dep
+        $this->setMessage(self::$registeredNewUserMessage, true);
+		$this->tempDataHandler->setTempData(self::$registeredUsernameKey, $this->getRequestUsername());
         header("Location: ?");
         exit();
     }

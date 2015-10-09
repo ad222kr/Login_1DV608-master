@@ -9,7 +9,7 @@
 namespace view;
 
 
-class NagivationView {
+class NavigationView {
 
     private static $registerName = "register";
 

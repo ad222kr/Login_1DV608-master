@@ -8,13 +8,13 @@
 
 namespace controller;
 require_once('src/common/ILoginStateHandler.php');
-require_once('src/common/ITempMessageHandler.php');
+require_once('src/common/ITempDataHandler.php');
 
 require_once('src/view/BaseView.php');
 require_once('src/view/LoginView.php');
 require_once('src/view/DateTimeView.php');
 require_once('src/view/LayoutView.php');
-require_once('src/view/NagivationView.php');
+require_once('src/view/NavigationView.php');
 require_once('src/view/RegisterView.php');
 
 require_once('src/model/UserCredentials.php');
@@ -61,7 +61,7 @@ class MasterController {
 
         $dateTimeView = new \view\DateTimeView();
         $layoutView = new \view\LayoutView();
-        $navigationView = new \view\NagivationView();
+        $navigationView = new \view\NavigationView();
         $sessionHandler = new \common\SessionHandler();
         $isLoggedIn = false;
 
