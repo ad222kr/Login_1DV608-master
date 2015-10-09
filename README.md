@@ -2,7 +2,7 @@
 Repo for assignment 2 and 4 for the course 1DV608.  
 Login with Model View Controller.
   
-Live application can be found [here](https://github.com/ad222kr/Login_1DV608-master/releases).
+Live application can be found [here](http://login-1dv406.herokuapp.com/).
 
 ##Requirements
 [Usecases Assignment 2](https://github.com/dntoll/1DV608/blob/master/Assignments/Assignment_2/Assignment2_Use_Cases.md)  
