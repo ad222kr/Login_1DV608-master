@@ -5,13 +5,13 @@ Login with Model View Controller.
 Live application can be found [here](https://github.com/ad222kr/Login_1DV608-master/releases).
 
 ##Requirements
-[Usecases Assignment 2](https://github.com/dntoll/1DV608/blob/master/Assignments/Assignment_2/Assignment2_Use_Cases.md)
-[Usecases Assignment 4](https://github.com/dntoll/1DV608/blob/master/Assignments/Assignment_4/UC4.md)
-##Testing
-[Test Cases Assignment 2](https://github.com/dntoll/1DV608/blob/master/Assignments/Assignment_2/Assignment2_Test_Cases_Mandatory.md)
-[Extra Test Cases Assigmnent 2](https://github.com/dntoll/1DV608/blob/master/Assignments/Assignment_2/Assignment2_Extra_Test_cases.md)
-[Test Cases Assignment 4](https://github.com/dntoll/1DV608/blob/master/Assignments/Assignment_4/TestCases.md)
+[Usecases Assignment 2](https://github.com/dntoll/1DV608/blob/master/Assignments/Assignment_2/Assignment2_Use_Cases.md)  
+[Usecases Assignment 4](https://github.com/dntoll/1DV608/blob/master/Assignments/Assignment_4/UC4.md)  
+##Testing  
+[Test Cases Assignment 2](https://github.com/dntoll/1DV608/blob/master/Assignments/Assignment_2/Assignment2_Test_Cases_Mandatory.md)  
+[Extra Test Cases Assigmnent 2](https://github.com/dntoll/1DV608/blob/master/Assignments/Assignment_2/Assignment2_Extra_Test_cases.md)  
+[Test Cases Assignment 4](https://github.com/dntoll/1DV608/blob/master/Assignments/Assignment_4/TestCases.md)  
 
 ##Installation 
-* Online: Upload files to a server
-* Local: Install a local server like wamp-server, drop files in www-folder. Or with the built in server in phpStorm
+* Online: Upload files to a server  
+* Local: Install a local server like wamp-server, drop files in www-folder. Or with the built in server in phpStorm  
