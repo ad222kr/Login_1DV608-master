@@ -21,17 +21,22 @@ abstract class BaseView {
      */
     protected $tempDataHandler;
 
-
-
     /**
      * @var String, Feedback message
      */
     protected $message = null;
 
+    /**
+     * @param ITempDataHandler $tempDataHandler
+     */
     public function __construct(ITempDataHandler $tempDataHandler) {
         $this->tempDataHandler = $tempDataHandler;
     }
 
+    /**
+     * @param $stringToSanitize
+     * @return string, input sanitized
+     */
     protected function sanitizeInput($stringToSanitize) {
         assert(is_string($stringToSanitize));
         $sanitized = htmlspecialchars($stringToSanitize, ENT_COMPAT,'ISO-8859-1');
@@ -43,6 +48,12 @@ abstract class BaseView {
         exit();
     }
 
+    /**
+     * Sets a message to the session if it should persist, else to a member var
+     *
+     * @param $message
+     * @param bool|false $shouldPersistRedirect
+     */
     protected function setMessage($message, $shouldPersistRedirect = false) {
         assert(is_string($message));
         assert(is_bool($shouldPersistRedirect));

@@ -12,7 +12,6 @@ class CookieHandler {
         assert(is_string($value));
         assert(is_int($expiresIn));
 
-
         setcookie($name, $value, time() + self::$cookiePersistTime);
     }
 

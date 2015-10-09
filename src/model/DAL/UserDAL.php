@@ -6,7 +6,13 @@ class UserDAL {
 
     private static $pathToHashedCredentials = "data/user-hashed-password";
 
+    /**
+     * @param $username
+     * @return \model\UserCredentials
+     * @throws \WrongCredentialsException
+     */
     public function getUserByName($username) {
+
         $scannedDirectory = array_diff(scandir(self::$pathToHashedCredentials), array("..", "."));
         foreach ($scannedDirectory as $registeredName) { // file-handle is the username
             if ($username === $registeredName) {
@@ -17,7 +23,13 @@ class UserDAL {
         throw new \WrongCredentialsException("Could not find user in the database");
     }
 
+
+    /**
+     * @param $username
+     * @return bool if the username is taken
+     */
     public function usernameExists($username) {
+
         $scannedDirectory = array_diff(scandir(self::$pathToHashedCredentials), array("..", "."));
         foreach ($scannedDirectory as $registeredName) {
             if ($username === $registeredName){

@@ -41,23 +41,19 @@ require_once('src/common/RegistrationCredentialsMissingException.php');
 require_once('src/common/NotAllowedCharactersInUsernameException.php');
 
 
-
-
-
-
 class MasterController {
 
-
+    /**
+     * @var \model\dal\UserDAL
+     */
     private $userDAL;
 
-    public function __construct() {
 
+    public function __construct() {
         $this->userDAL = new \model\dal\UserDAL();
     }
 
-
     public function run() {
-        //CREATE OBJECTS OF THE MODELS
 
         $dateTimeView = new \view\DateTimeView();
         $layoutView = new \view\LayoutView();
@@ -66,8 +62,6 @@ class MasterController {
         $isLoggedIn = false;
 
         if ($navigationView->userWantsToRegister()) {
-
-
             $registerModel = new \model\RegisterModel($this->userDAL);
             $registerView = new \view\RegisterView($sessionHandler, $registerModel);
             $registerController = new \controller\RegisterController($registerModel, $registerView);
@@ -75,7 +69,6 @@ class MasterController {
             $registerController->doRegisterAction();
             $html = $registerController->getView()->response();
         } else {
-
             $cookieHandler = new \view\CookieHandler();
             $loginModel = new \model\LoginModel($sessionHandler, $this->userDAL);
             $loginView = new \view\LoginView($sessionHandler, $cookieHandler, $loginModel);
@@ -83,7 +76,6 @@ class MasterController {
 
             $isLoggedIn = $loginController->doLoginAction();
             $html = $loginController->getView()->response();
-
         }
 
         $layoutView->render($isLoggedIn, $html, $dateTimeView, $navigationView);

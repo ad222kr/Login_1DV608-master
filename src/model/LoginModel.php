@@ -9,9 +9,21 @@ class LoginModel {
      * @var \common\ILoginStateHandler
      */
     private $loginStateHandler;
+
+    /**
+     * @var dal\UserDAL
+     */
     private $userDAL;
+
+    /**
+     * @var TempCredentialsDAL
+     */
     private $tempDAL;
 
+    /**
+     * @param \common\ILoginStateHandler $loginStateHandler
+     * @param dal\UserDAL $userDAL
+     */
     public function __construct(\common\ILoginStateHandler $loginStateHandler, \model\dal\UserDAL $userDAL) {
         $this->loginStateHandler = $loginStateHandler;
         $this->userDAL = $userDAL;
@@ -47,6 +59,9 @@ class LoginModel {
         return false;
     }
 
+    /**
+     * @return string, random string for cookie
+     */
     private function generateCookiePassword() {
         // https://paragonie.com/blog/2015/04/secure-authentication-php-with-long-term-persistence#title.2
         // not good according to this article but will have to suffice for this assignment
@@ -58,6 +73,11 @@ class LoginModel {
         return bin2hex($password);
     }
 
+    /**
+     * Generates a random password for cookies, saves to file
+     *
+     * @return string
+     */
     public function getTempPassword() {
 
         $tempPassword = $this->generateCookiePassword();

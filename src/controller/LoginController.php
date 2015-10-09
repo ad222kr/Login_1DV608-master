@@ -14,6 +14,10 @@ class LoginController {
      */
     private $loginView;
 
+    /**
+     * @param \model\LoginModel $loginModel
+     * @param \view\LoginView $loginView
+     */
     public function __construct(\model\LoginModel $loginModel, \view\LoginView $loginView) {
         $this->loginModel = $loginModel;
         $this->loginView = $loginView;
@@ -55,6 +59,9 @@ class LoginController {
         $this->loginView->reloadPage();
     }
 
+    /**
+     * @return \view\LoginView
+     */
     public function getView() {
         return $this->loginView;
     }

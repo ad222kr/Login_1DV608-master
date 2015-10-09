@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Alex
- * Date: 2015-10-07
- * Time: 19:23
- */
 
 namespace common;
-
 
 class UsernameToShortException extends \Exception{
 

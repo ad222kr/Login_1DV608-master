@@ -1,41 +1,38 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Alex
- * Date: 2015-10-07
- * Time: 19:21
- */
 
 namespace model;
-
-// Baseclass for this and user-creds probably
-
-require_once("src/common/UsernameToShortException.php");
-require_once("src/common/PasswordToShortException.php");
-require_once("src/common/PasswordDoNotMatchException.php");
-
 
 class RegisterCredentials extends UserCredentials {
 
     private static $minUsernameLength = 3;
     private static $minPasswordLength = 6;
 
+    /**
+     * @var string
+     */
     private $username;
+
+    /**
+     * @var string
+     */
     private $password;
 
+    /**
+     * @param $username
+     * @param $password
+     * @param string $repeatPassword
+     * @throws \common\NotAllowedCharactersInUsernameException
+     * @throws \common\PasswordDoNotMatchException
+     * @throws \common\PasswordToShortException
+     * @throws \common\RegistrationCredentialsMissingException
+     * @throws \common\UsernameToShortException
+     */
     public function __construct($username, $password, $repeatPassword) {
 
-        if ($username != strip_tags($username)) {
+        if ($username != strip_tags($username))
             throw new \common\NotAllowedCharactersInUsernameException("Not allowd chars in username");
-        }
-
-
-        if (trim($username) == "" && trim($password) == "") {
+        if (trim($username) == "" && trim($password) == "")
             throw new \common\RegistrationCredentialsMissingException("Credentials missing");
-        }
-
-
-
         if (trim(strlen($username)) < self::$minUsernameLength)
             throw new \common\UsernameToShortException("Username to short");
         if (trim(strlen($password)) < self::$minPasswordLength)

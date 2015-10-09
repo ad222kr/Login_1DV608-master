@@ -23,8 +23,6 @@ class LoginView extends BaseView {
     private static $wrongCookieInfoMessage = "Wrong information in cookies";
     private static $welcomeWithCookieMessage = "Welcome back with cookie";
 
-
-
     /**
      * @var \view\CookieHandler
      */
@@ -35,9 +33,11 @@ class LoginView extends BaseView {
      */
     private $loginModel;
 
-
-
-
+    /**
+     * @param \common\ITempDataHandler $tempDataHandler
+     * @param CookieHandler $cookieHandler
+     * @param \model\LoginModel $loginModel
+     */
     public function __construct(\common\ITempDataHandler $tempDataHandler, CookieHandler $cookieHandler,
                                 \model\LoginModel $loginModel) {
         parent::__construct($tempDataHandler);
@@ -56,9 +56,8 @@ class LoginView extends BaseView {
 
         $message = $this->getMessage();
 
-        if ($this->loginModel->userIsLoggedIn()){
+        if ($this->loginModel->userIsLoggedIn())
             return $this->generateLogoutButtonHTML($message);
-        }
 
         return $this->generateLoginFormHTML($message);;
     }
@@ -69,8 +68,6 @@ class LoginView extends BaseView {
         $this->cookieHandler->setCookie(self::$cookieName, $username, 30);
         $this->cookieHandler->setCookie(self::$cookiePassword, $password, 30);
     }
-
-
 
     public function forgetUser() {
         $this->cookieHandler->deleteCookie(self::$cookieName);
@@ -91,7 +88,6 @@ class LoginView extends BaseView {
 
     public function setLogoutSucceeded() {
         $this->setMessage(self::$goodbyeMessage, true);
-
     }
 
     public function setLoginFailed() {
@@ -129,12 +125,6 @@ class LoginView extends BaseView {
         }
     }
 
-    /**
-     * Gets a message from the $_SESSION-array if there is any, else it takes the
-     * member-variable.
-     * @return string, message for the user, empty if no message is set
-     */
-
     private function userCredentialCookieExists() {
         if ($this->cookieHandler->getCookie(self::$cookieName) != null &&
             $this->cookieHandler->getCookie(self::$cookiePassword) != null) {
@@ -169,9 +159,18 @@ class LoginView extends BaseView {
         return isset($_POST[self::$keep]);
     }
 
+    /**
+     * checks if there is a username stored in session of newly registered user
+     *
+     * @return string
+     */
     private function getUsernameToForm() {
 
-        return  $this->tempDataHandler->getTempData(self::$registeredUsernameKey) | $this->getRequestUserName();
+        $username = $this->tempDataHandler->getTempData(self::$registeredUsernameKey);
+        if ($username != null)
+            return $username;
+
+        return $this->getRequestUserName();
     }
 
     /**

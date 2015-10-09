@@ -30,13 +30,23 @@ class RegisterView extends BaseView {
     private static $databaseErrorMessage = "Something went wrong when saving data";
 	private static $registeredNewUserMessage = "Registered new user.";
 
+    /**
+     * @var \model\RegisterModel
+     */
     private $registerModel;
 
+    /**
+     * @param \common\ITempDataHandler $tempDataHandler
+     * @param \model\RegisterModel $registerModel
+     */
     public function __construct(\common\ITempDataHandler $tempDataHandler, \model\RegisterModel $registerModel) {
         parent::__construct($tempDataHandler);
         $this->registerModel = $registerModel;
     }
 
+    /**
+     * @return string, form for registration
+     */
     public function response() {
         $message = $this->getMessage();
         return $this->generateForm($message);
@@ -81,7 +91,6 @@ class RegisterView extends BaseView {
 
     public function setRegistrationSuccessful() {
         $this->setMessage(self::$registrationSuccessMessage, true);
-
     }
 
     private function getRequestUsername() {

@@ -11,9 +11,20 @@ namespace controller;
 
 class RegisterController {
 
+    /**
+     * @var \model\RegisterModel
+     */
     private $registerModel;
+
+    /**
+     * @var \view\RegisterView
+     */
     private $registerView;
 
+    /**
+     * @param \model\RegisterModel $registerModel
+     * @param \view\RegisterView $registerView
+     */
     public function __construct(\model\RegisterModel $registerModel, \view\RegisterView $registerView) {
         $this->registerModel = $registerModel;
         $this->registerView = $registerView;
@@ -35,6 +46,9 @@ class RegisterController {
         }
     }
 
+    /**
+     * @return \view\RegisterView
+     */
     public function getView() {
         return $this->registerView;
     }
