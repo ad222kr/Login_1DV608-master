@@ -28,7 +28,7 @@ class RegisterView extends BaseView {
     private static $userAlreadyExistsMessage = "User exists, pick another username.";
     private static $notAllowedCharactersInUsernameMessage = "Username contains invalid characters.";
     private static $databaseErrorMessage = "Something went wrong when saving data";
-	private static $registeredNewUserMessage = "Registered new user.";
+    private static $registeredNewUserMessage = "Registered new user.";
 
     /**
      * @var \model\RegisterModel
@@ -54,7 +54,7 @@ class RegisterView extends BaseView {
 
     public function setRegistrationSuccess() {
         $this->setMessage(self::$registeredNewUserMessage, true);
-		$this->tempDataHandler->setTempData(self::$registeredUsernameKey, $this->getRequestUsername());
+	$this->tempDataHandler->setTempData(self::$registeredUsernameKey, $this->getRequestUsername());
         header("Location: ?");
         exit();
     }
